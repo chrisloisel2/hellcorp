@@ -1,0 +1,245 @@
+{
+  "format": "HellCorpAuthoredClipV1",
+  "name": "lucy_idle_ani",
+  "fps": 30,
+  "duration": 2.80,
+  "cyclic": true,
+  "seed": 8181,
+  "expressions": {
+    "happy": 0.13,
+    "relaxed": 0.18,
+    "mouthOpen": 0.0
+  },
+  "blinkTimes": [0.14, 0.58, 0.615],
+  "eyeTargets": [
+    { "t": 0.00, "x": 0.000, "y": 0.000 },
+    { "t": 0.18, "x": 0.040, "y": -0.012 },
+    { "t": 0.38, "x": 0.018, "y": -0.006 },
+    { "t": 0.61, "x": -0.032, "y": 0.006 },
+    { "t": 0.82, "x": 0.005, "y": -0.008 }
+  ],
+  "layers": {
+    "breathing": {
+      "enabled": true,
+      "cycles": 1.0,
+      "phase": 0.08,
+      "chestPitch": 0.016,
+      "spinePitch": 0.008,
+      "rootLift": 0.0055
+    },
+    "pelvisFigureEight": {
+      "enabled": true,
+      "roll": 0.018,
+      "yaw": 0.014,
+      "shiftX": 0.006
+    },
+    "stepCompression": { "enabled": false },
+    "headStabilization": {
+      "enabled": true,
+      "gain": 0.28,
+      "neckGain": 0.08
+    },
+    "armFollowThrough": {
+      "enabled": true,
+      "lag": 0.08,
+      "amplitude": 0.010
+    },
+    "microMotion": {
+      "enabled": true,
+      "headYaw": 0.007,
+      "headRoll": 0.005,
+      "chestRoll": 0.004,
+      "handRoll": 0.012
+    },
+    "blink": { "width": 0.021 }
+  },
+  "tracks": {
+    "root.position.x": {
+      "curve": "catmull",
+      "keys": [
+        { "t": 0.00, "v": -0.012 },
+        { "t": 0.20, "v": -0.020 },
+        { "t": 0.45, "v": 0.008 },
+        { "t": 0.70, "v": 0.022 },
+        { "t": 0.90, "v": -0.002 }
+      ]
+    },
+    "root.position.y": {
+      "curve": "smooth",
+      "keys": [
+        { "t": 0.00, "v": 0.000 },
+        { "t": 0.25, "v": -0.004 },
+        { "t": 0.50, "v": 0.002 },
+        { "t": 0.75, "v": -0.003 }
+      ]
+    },
+    "hips.rotation.z": {
+      "curve": "catmull",
+      "tension": 0.42,
+      "keys": [
+        { "t": 0.00, "v": -0.060 },
+        { "t": 0.22, "v": -0.082 },
+        { "t": 0.48, "v": -0.020 },
+        { "t": 0.70, "v": 0.070 },
+        { "t": 0.90, "v": 0.018 }
+      ]
+    },
+    "hips.rotation.y": {
+      "curve": "catmull",
+      "keys": [
+        { "t": 0.00, "v": 0.025 },
+        { "t": 0.28, "v": 0.042 },
+        { "t": 0.55, "v": -0.020 },
+        { "t": 0.80, "v": -0.038 }
+      ]
+    },
+    "spine.rotation.z": {
+      "curve": "catmull",
+      "keys": [
+        { "t": 0.00, "v": 0.025 },
+        { "t": 0.25, "v": 0.035 },
+        { "t": 0.50, "v": 0.005 },
+        { "t": 0.75, "v": -0.030 }
+      ]
+    },
+    "spine.rotation.y": {
+      "curve": "catmull",
+      "keys": [
+        { "t": 0.00, "v": -0.018 },
+        { "t": 0.30, "v": -0.028 },
+        { "t": 0.58, "v": 0.018 },
+        { "t": 0.82, "v": 0.026 }
+      ]
+    },
+    "chest.rotation.z": {
+      "curve": "catmull",
+      "keys": [
+        { "t": 0.00, "v": 0.020 },
+        { "t": 0.24, "v": 0.030 },
+        { "t": 0.50, "v": 0.008 },
+        { "t": 0.76, "v": -0.026 }
+      ]
+    },
+    "chest.rotation.y": {
+      "curve": "catmull",
+      "keys": [
+        { "t": 0.00, "v": -0.022 },
+        { "t": 0.32, "v": -0.032 },
+        { "t": 0.62, "v": 0.020 },
+        { "t": 0.84, "v": 0.028 }
+      ]
+    },
+    "neck.rotation.z": {
+      "curve": "catmull",
+      "keys": [
+        { "t": 0.00, "v": -0.010 },
+        { "t": 0.22, "v": -0.018 },
+        { "t": 0.50, "v": 0.002 },
+        { "t": 0.72, "v": 0.016 }
+      ]
+    },
+    "head.rotation.z": {
+      "curve": "catmull",
+      "keys": [
+        { "t": 0.00, "v": -0.020 },
+        { "t": 0.20, "v": -0.030 },
+        { "t": 0.48, "v": -0.008 },
+        { "t": 0.72, "v": 0.025 },
+        { "t": 0.90, "v": 0.004 }
+      ]
+    },
+    "head.rotation.y": {
+      "curve": "catmull",
+      "keys": [
+        { "t": 0.00, "v": 0.020 },
+        { "t": 0.26, "v": 0.038 },
+        { "t": 0.54, "v": 0.008 },
+        { "t": 0.78, "v": -0.034 }
+      ]
+    },
+    "leftUpperLeg.rotation.x": {
+      "curve": "smooth",
+      "keys": [
+        { "t": 0.00, "v": 0.030 },
+        { "t": 0.35, "v": 0.045 },
+        { "t": 0.70, "v": 0.010 }
+      ]
+    },
+    "rightUpperLeg.rotation.x": {
+      "curve": "smooth",
+      "keys": [
+        { "t": 0.00, "v": -0.020 },
+        { "t": 0.35, "v": -0.010 },
+        { "t": 0.70, "v": -0.035 }
+      ]
+    },
+    "leftUpperLeg.rotation.z": {
+      "curve": "catmull",
+      "keys": [
+        { "t": 0.00, "v": -0.028 },
+        { "t": 0.40, "v": -0.040 },
+        { "t": 0.72, "v": -0.012 }
+      ]
+    },
+    "rightUpperLeg.rotation.z": {
+      "curve": "catmull",
+      "keys": [
+        { "t": 0.00, "v": 0.020 },
+        { "t": 0.42, "v": 0.012 },
+        { "t": 0.72, "v": 0.036 }
+      ]
+    },
+    "leftLowerLeg.rotation.x": {
+      "curve": "smooth",
+      "keys": [
+        { "t": 0.00, "v": 0.080 },
+        { "t": 0.35, "v": 0.105 },
+        { "t": 0.70, "v": 0.070 }
+      ]
+    },
+    "rightLowerLeg.rotation.x": {
+      "curve": "smooth",
+      "keys": [
+        { "t": 0.00, "v": 0.055 },
+        { "t": 0.35, "v": 0.045 },
+        { "t": 0.70, "v": 0.075 }
+      ]
+    },
+    "leftUpperArm.rotation.x": {
+      "curve": "catmull",
+      "keys": [
+        { "t": 0.00, "v": -0.025 },
+        { "t": 0.28, "v": -0.045 },
+        { "t": 0.55, "v": -0.010 },
+        { "t": 0.80, "v": 0.025 }
+      ]
+    },
+    "rightUpperArm.rotation.x": {
+      "curve": "catmull",
+      "keys": [
+        { "t": 0.00, "v": 0.018 },
+        { "t": 0.28, "v": 0.035 },
+        { "t": 0.55, "v": 0.008 },
+        { "t": 0.80, "v": -0.024 }
+      ]
+    },
+    "leftLowerArm.rotation.x": {
+      "curve": "catmull",
+      "keys": [
+        { "t": 0.00, "v": -0.020 },
+        { "t": 0.30, "v": -0.040 },
+        { "t": 0.60, "v": -0.010 },
+        { "t": 0.82, "v": 0.025 }
+      ]
+    },
+    "rightLowerArm.rotation.x": {
+      "curve": "catmull",
+      "keys": [
+        { "t": 0.00, "v": 0.016 },
+        { "t": 0.30, "v": 0.032 },
+        { "t": 0.60, "v": 0.008 },
+        { "t": 0.82, "v": -0.020 }
+      ]
+    }
+  }
+}
