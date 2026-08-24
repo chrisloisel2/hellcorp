@@ -7,7 +7,10 @@ DST = ROOT / "app_v3.js"
 INDEX = ROOT / "index.html"
 INDEX_V3 = ROOT / "index_v3.html"
 
-IMPORT = "import { createAuthoredRuntime, authoredClipSummary } from './v3/authored_animation.js';\n"
+IMPORTS = (
+    "import { createAuthoredRuntime, authoredClipSummary } from './v3/authored_animation.js';\n"
+    "import { auditAuthoredRuntime } from './v3/quality_audit.js';\n"
+)
 
 APPEND = r'''
 
@@ -62,8 +65,12 @@ window.__renderAuthoredClip = async (clip, profile, options = {}) => {
   const outputName = safeName(options.outputName || `${profile?.name || 'character'}_${clip?.name || 'clip'}_${view}`);
   const preRollFrames = Math.max(0, Number(options.preRollFrames ?? 12));
   const runtime = createAuthoredRuntime(clip, profile, { fps });
+  const audit = auditAuthoredRuntime(runtime);
   const count = runtime.framesPerCycle * cycles;
   const dt = 1 / fps;
+
+  if (audit.warnings?.length) log(`AUTHORED V3 audit warnings: ${audit.warnings.join(' | ')}`);
+  else log(`AUTHORED V3 audit OK: seam=${audit.boneLoopDelta.toFixed(4)}, maxStep=${audit.maxAngularStep.toFixed(4)} rad.`);
 
   const root = await navigator.storage.getDirectory();
   const outDir = await childDir(root, outputName);
@@ -110,6 +117,7 @@ window.__renderAuthoredClip = async (clip, profile, options = {}) => {
     view,
     output_name: outputName,
     summary: authoredClipSummary(clip, profile),
+    quality_audit: audit,
   };
   await writeText(outDir, 'manifest.json', JSON.stringify(manifest, null, 2));
 
@@ -126,7 +134,7 @@ window.__renderAuthoredClip = async (clip, profile, options = {}) => {
 
 def main() -> None:
     src = SRC.read_text(encoding="utf-8")
-    DST.write_text(IMPORT + src + APPEND, encoding="utf-8")
+    DST.write_text(IMPORTS + src + APPEND, encoding="utf-8")
 
     html = INDEX.read_text(encoding="utf-8")
     html = html.replace('<script type="module" src="app.js"></script>', '<script type="module" src="app_v3.js"></script>', 1)
