@@ -18,7 +18,7 @@ SKIP_PIXEL=0
 
 usage() {
   cat <<'EOF'
-Usage: ./tools/run_v2_cli.sh [options]
+Usage: bash tools/run_v2_cli.sh [options]
 
 Runs the complete Motion Studio V2 pipeline without opening the UI:
   build V2 -> MediaPipe tracking -> biomechanical pass -> deterministic render
@@ -39,10 +39,10 @@ Options:
   -h, --help             show this help
 
 Example:
-  ./tools/run_v2_cli.sh
+  bash tools/run_v2_cli.sh
 
 Custom:
-  ./tools/run_v2_cli.sh \
+  bash tools/run_v2_cli.sh \
     --vrm test_assets/vrm/fem_vroid.vrm \
     --body video/perfect.mp4 \
     --out results/lucy_v2 \
@@ -94,7 +94,9 @@ fi
 # Build generated V2 entrypoints while leaving V1 untouched.
 python3 v2/build_v2.py
 
-TMP_CLI="$(mktemp "${TMPDIR:-/tmp}/hellcorp-render-v2.XXXXXX.mjs")"
+# Keep the temporary ESM next to tools/node_modules so Node can resolve
+# Playwright exactly as it does for tools/render_cli.mjs.
+TMP_CLI="$(mktemp "$STUDIO_DIR/tools/.render_v2_cli.XXXXXX.mjs")"
 trap 'rm -f "$TMP_CLI"' EXIT
 
 # Reuse the tested headless renderer. Only two behaviors differ for V2:
