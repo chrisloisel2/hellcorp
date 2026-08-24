@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HellCorp — Messages</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="messages.css" />
+</head>
+<body>
+  <div class="topbar">
+    <span id="whoami"></span>
+    <a href="/dashboard.html">Day Shift</a>
+    <a href="/game.html">Night Shift</a>
+    <a href="/npc_manager.html">Gestion PNJ</a>
+    <a href="/story_manager.html">Trame narrative</a>
+    <button id="logout">Déconnexion</button>
+  </div>
+
+  <div class="messages-layout">
+    <div class="conversation-list" id="conversation-list"></div>
+
+    <div class="thread" id="thread">
+      <p class="empty-hint">Sélectionne une conversation.</p>
+    </div>
+  </div>
+
+  <script src="messages.js"></script>
+</body>
+</html>

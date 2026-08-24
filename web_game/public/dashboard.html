@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HellCorp — Day Shift</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="dashboard.css" />
+</head>
+<body>
+  <div class="topbar">
+    <span id="whoami"></span>
+    <a href="/messages.html">Messages</a>
+    <a href="/game.html">Night Shift</a>
+    <a href="/npc_manager.html">Gestion PNJ</a>
+    <a href="/story_manager.html">Trame narrative</a>
+    <button id="logout">Déconnexion</button>
+  </div>
+
+  <div class="phone">
+    <header class="phone-header">
+      <h1>HELLCORP</h1>
+      <p class="division">Special Contracts</p>
+
+      <div class="stats-grid">
+        <div class="stat"><span class="label">Capital</span><span class="value" id="stat-capital">—</span></div>
+        <div class="stat"><span class="label">Revenus/h</span><span class="value" id="stat-revenue">—</span></div>
+        <div class="stat"><span class="label">Réputation</span><span class="value" id="stat-reputation">—</span></div>
+        <div class="stat"><span class="label">Employés</span><span class="value" id="stat-employees">—</span></div>
+      </div>
+
+      <ul class="summary" id="summary"></ul>
+    </header>
+
+    <nav class="tabs">
+      <button data-tab="entreprise" class="tab-btn active">Entreprise</button>
+      <button data-tab="contrats" class="tab-btn">Contrats</button>
+      <button data-tab="employes" class="tab-btn">Employés</button>
+      <button data-tab="recruter" class="tab-btn">Recruter</button>
+      <button data-tab="messages" class="tab-btn">Messages</button>
+    </nav>
+
+    <main class="tab-content">
+      <section id="tab-entreprise" class="panel active">
+        <p class="empty-hint">HellCorp — Special Contracts. Développe ton équipe, enchaîne les contrats, et surveille ce qui se passe au siège la nuit.</p>
+      </section>
+
+      <section id="tab-contrats" class="panel">
+        <div id="contracts-list" class="list"></div>
+      </section>
+
+      <section id="tab-employes" class="panel">
+        <div id="employees-list" class="list"></div>
+      </section>
+
+      <section id="tab-recruter" class="panel">
+        <div id="recruits-list" class="list"></div>
+      </section>
+
+      <section id="tab-messages" class="panel">
+        <div id="messages-preview" class="list"></div>
+        <a href="/messages.html" class="btn primary" style="display:block; text-align:center; text-decoration:none; margin-top:10px;">Ouvrir la messagerie</a>
+      </section>
+    </main>
+  </div>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>

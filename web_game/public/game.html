@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HellCorp</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="messages.css" />
+  <link rel="stylesheet" href="game.css" />
+</head>
+<body>
+  <canvas id="game"></canvas>
+
+  <div class="topbar">
+    <span id="whoami"></span>
+    <label class="size-control">
+      Taille
+      <input id="character-size" type="range" min="60" max="300" step="5" value="130" />
+    </label>
+    <a href="/dashboard.html">Day Shift</a>
+    <a href="/messages.html">Messages</a>
+    <a href="/npc_manager.html">Gestion PNJ</a>
+    <a href="/story_manager.html">Trame narrative</a>
+    <a href="/editor.html">Éditeur de map</a>
+    <button id="logout">Déconnexion</button>
+  </div>
+
+  <div id="interact-prompt" class="interact-prompt" hidden></div>
+
+  <div id="quest-tracker" class="quest-tracker">
+    <button id="quest-tracker-toggle" class="quest-tracker-header" type="button">
+      <img src="assets/ui/quest_icon.png" class="quest-icon" alt="" />
+      <span>Quêtes</span>
+      <span id="quest-active-count" class="quest-count-badge">0</span>
+      <span class="quest-chevron" id="quest-chevron">▾</span>
+    </button>
+    <div id="quest-tracker-body" class="quest-tracker-body" hidden>
+      <div class="quest-filters" id="quest-filters"></div>
+      <div class="quest-list" id="quest-list"></div>
+    </div>
+  </div>
+
+  <div id="quest-toast-container" class="quest-toast-container"></div>
+
+  <div id="dialogue-overlay" class="dialogue-overlay" hidden>
+    <div class="dialogue-box thread">
+      <div class="thread-header">
+        <img id="dlg-avatar" class="avatar" alt="" />
+        <div class="thread-header-info">
+          <div class="thread-header-name" id="dlg-name"></div>
+          <div class="thread-header-title" id="dlg-title"></div>
+        </div>
+        <button class="details-toggle" id="dlg-details-toggle">Détails</button>
+        <button class="details-toggle" id="dlg-close">Fermer (Échap)</button>
+      </div>
+      <div id="dlg-details" class="thread-details"></div>
+      <div id="dlg-sentiment" class="sentiment-lines"></div>
+      <div id="dlg-memories" class="memories-line"></div>
+      <div id="dlg-scroll" class="messages-scroll"></div>
+      <div id="dlg-replybar" class="reply-bar"></div>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>

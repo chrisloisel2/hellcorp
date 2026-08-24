@@ -1,0 +1,39 @@
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Node
+node_modules/
+
+# Model weights / checkpoints (too heavy for GitHub)
+*.safetensors
+*.ckpt
+*.pt
+*.pth
+*.onnx
+*.gguf
+models/
+
+# Model/HF caches and isolated runtime envs (regenerable, huge)
+hellcorp_ai/cache/
+hellcorp_ai/runtime/
+hf_cache/
+
+# Stray/junk placeholder venv
+path/
+
+# Vendored external tool (own git history + compiled binary) — re-clone from
+# https://github.com/jamriska/ebsynth if needed instead of tracking it here
+sdxl_lora_bench/ebsynth_src/
+
+# Disposable dev iteration renders (regenerable via the pipeline)
+HellCorp_Motion_Studio/cli_output/
+
+# sqlite runtime db for web_game server
+web_game/server/*.sqlite
+web_game/server/*.sqlite-*

@@ -1,0 +1,66 @@
+{
+	"morrigan": {
+		"display_name": "Morrigan",
+		"age": 31,
+		"role": "VP Finance",
+		"seed": 666031,
+		"description": "fictional adult woman age 31, tall voluptuous hourglass figure, long voluminous wavy jet-black hair, warm pale skin, amber eyes, mature controlled intimidating expression, black tailored executive blazer, ivory silk blouse, fitted knee-length pencil skirt, black tights, black pumps, restrained gold jewelry, HellCorp executive badge",
+		"palette": [
+			"#0D0D0F",
+			"#242127",
+			"#4B3434",
+			"#8A2026",
+			"#C38B34",
+			"#E0B99E",
+			"#F2D7C4"
+		]
+	},
+	"morrigan_night": {
+		"display_name": "Morrigan (Night Shift)",
+		"age": 31,
+		"role": "VP Finance — Night Shift demon form",
+		"seed": 667031,
+		"description": "fictional adult woman age 31, same identity as Morrigan VP Finance but in her Night Shift demon form, tall voluptuous hourglass figure, long voluminous wavy dark red hair, warm pale skin, amber eyes, small curved black horns, black membranous bat wings, mature controlled intimidating expression, fitted black floor-length evening gown with a plunging sweetheart neckline and a thigh-high slit, bare shoulders, minimal dark gold jewelry",
+		"palette": [
+			"#0D0D0F",
+			"#241417",
+			"#4B1F27",
+			"#8A2036",
+			"#C38B34",
+			"#5C1420",
+			"#F2D7C4"
+		]
+	},
+	"lucy": {
+		"display_name": "Lucy",
+		"age": 28,
+		"role": "Executive Assistant",
+		"seed": 666028,
+		"description": "fictional adult woman age 28, curvy feminine figure, medium height, honey-blonde hair in a polished high bun with two loose strands, green eyes, black glasses, mature intelligent friendly face, fitted white corporate blouse with rolled sleeves, black knee-length pencil skirt, black tights, black pumps, slim gold watch, HellCorp assistant badge and black tablet",
+		"palette": [
+			"#171619",
+			"#2F2927",
+			"#6D4A2E",
+			"#B88653",
+			"#E4C29E",
+			"#F1E8DE",
+			"#496252"
+		]
+	},
+	"malphas": {
+		"display_name": "Malphas",
+		"age": 34,
+		"role": "Head of Occult Affairs",
+		"seed": 666034,
+		"description": "fictional adult demon woman age 34, tall voluptuous athletic hourglass figure, very long silver-white hair, violet eyes, pointed ears, symmetrical elegant black horns, mature calm dangerous face, burgundy tailored blazer over a black blouse, high-waisted fitted black trousers, black pumps, restrained occult gold jewelry, HellCorp occult badge and one closed black grimoire",
+		"palette": [
+			"#111116",
+			"#29232C",
+			"#571E29",
+			"#8C3341",
+			"#C08D3F",
+			"#8B7B9D",
+			"#E5D9D6"
+		]
+	}
+}

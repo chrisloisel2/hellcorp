@@ -1,0 +1,314 @@
+/* style.css centers body's content for the single-canvas pages; the game is full-screen
+   instead, with the topbar floating on top of it (same treatment as the map editor). */
+html, body {
+  align-items: stretch;
+  height: 100%;
+  overflow: hidden;
+}
+
+#game {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  display: block;
+  max-width: none;
+  background: #2b2320;
+}
+
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+}
+
+/* Author rules that set `display` on a [hidden] element beat the browser's default
+   [hidden]{display:none} regardless of order/specificity — .dialogue-overlay below does
+   exactly that, so it needs this guard (same bug/fix as editor.css). */
+[hidden] {
+  display: none !important;
+}
+
+.interact-prompt {
+  position: fixed;
+  bottom: 48px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  background: rgba(10, 8, 8, 0.85);
+  border: 1px solid #6b1616;
+  color: #f2e9df;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  pointer-events: none;
+}
+
+.dialogue-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.55);
+}
+
+.dialogue-box {
+  width: 520px;
+  max-width: 92vw;
+  max-height: 78vh;
+  background: #161010;
+  border: 1px solid #3a2323;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.dialogue-box .messages-scroll {
+  max-height: 40vh;
+}
+
+/* --- Quest tracker (top-right, per quest.png) --- */
+
+.quest-tracker {
+  position: fixed;
+  top: 60px;
+  right: 12px;
+  z-index: 2;
+  width: 320px;
+  max-width: calc(100vw - 24px);
+  display: flex;
+  flex-direction: column;
+  background: #161010;
+  border: 1px solid #3a2323;
+  border-radius: 8px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+}
+
+.quest-tracker-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  background: #1e1414;
+  border: none;
+  border-bottom: 1px solid #3a2323;
+  color: #f2e9df;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+}
+
+.quest-tracker-header .quest-icon {
+  width: 26px;
+  height: 26px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.quest-count-badge {
+  margin-left: auto;
+  background: rgba(226, 60, 60, 0.18);
+  border: 1px solid #6b1616;
+  color: #ffb0b0;
+  font-size: 0.72rem;
+  padding: 1px 8px;
+  border-radius: 10px;
+}
+
+.quest-chevron {
+  color: #8a7666;
+  font-size: 0.8rem;
+  transition: transform 0.15s ease;
+}
+
+.quest-tracker.open .quest-chevron {
+  transform: rotate(180deg);
+}
+
+.quest-tracker-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px;
+  max-height: 60vh;
+}
+
+.quest-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.quest-filter-btn {
+  padding: 4px 9px;
+  border-radius: 10px;
+  border: 1px solid #444;
+  background: #2a2a2a;
+  color: #ccc;
+  cursor: pointer;
+  font-size: 0.68rem;
+}
+
+.quest-filter-btn.active {
+  background: #5c1010;
+  border-color: #e23c3c;
+  color: #fff;
+}
+
+.quest-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow-y: auto;
+}
+
+.quest-card {
+  background: #1e1414;
+  border: 1px solid #2e1a1a;
+  border-left: 3px solid #666;
+  border-radius: 6px;
+  padding: 8px 10px;
+}
+
+.quest-card.status-active {
+  border-left-color: #e2b23c;
+}
+
+.quest-card.status-completed {
+  border-left-color: #3ce26b;
+}
+
+.quest-card.status-failed {
+  border-left-color: #e23c3c;
+  opacity: 0.7;
+}
+
+.quest-card-title-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.quest-card-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #f2e9df;
+  flex: 1;
+}
+
+.quest-card-status-icon {
+  font-size: 0.8rem;
+}
+
+.quest-card-desc {
+  font-size: 0.75rem;
+  color: #a8927e;
+  margin: 3px 0 6px;
+}
+
+.quest-progress-track {
+  height: 6px;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.quest-progress-fill {
+  height: 100%;
+  background: #e2b23c;
+}
+
+.quest-card.status-completed .quest-progress-fill {
+  background: #3ce26b;
+}
+
+.quest-card.status-failed .quest-progress-fill {
+  background: #e23c3c;
+}
+
+.quest-card-footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+  font-size: 0.7rem;
+  color: #cbb9a8;
+}
+
+.quest-reward {
+  color: #ffd27a;
+}
+
+.quest-abandon-btn {
+  margin-left: auto;
+  padding: 3px 8px;
+  border-radius: 4px;
+  border: 1px solid #6b1616;
+  background: transparent;
+  color: #e2a3a3;
+  cursor: pointer;
+  font-size: 0.68rem;
+}
+
+.quest-abandon-btn:hover {
+  background: rgba(226, 60, 60, 0.15);
+}
+
+.quest-empty-hint {
+  font-size: 0.78rem;
+  color: #8a7666;
+  text-align: center;
+  padding: 6px 0;
+}
+
+.quest-toast-container {
+  position: fixed;
+  top: 60px;
+  right: 12px;
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 320px;
+  max-width: calc(100vw - 24px);
+  pointer-events: none;
+}
+
+.quest-toast {
+  background: #161010;
+  border: 1px solid #3a2323;
+  border-left: 4px solid #e2b23c;
+  border-radius: 6px;
+  padding: 10px 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  animation: quest-toast-in 0.2s ease;
+}
+
+.quest-toast.completed {
+  border-left-color: #3ce26b;
+}
+
+.quest-toast.failed {
+  border-left-color: #e23c3c;
+}
+
+.quest-toast-title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #f2e9df;
+}
+
+.quest-toast-body {
+  font-size: 0.75rem;
+  color: #a8927e;
+  margin-top: 2px;
+}
+
+@keyframes quest-toast-in {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}

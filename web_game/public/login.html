@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HellCorp — Connexion</title>
+  <link rel="stylesheet" href="login.css" />
+</head>
+<body>
+  <div class="backdrop"></div>
+  <form id="login-form" class="login-panel">
+    <h1>HellCorp</h1>
+    <p class="subtitle">Connexion employé</p>
+
+    <label for="username">Identifiant</label>
+    <input id="username" name="username" type="text" autocomplete="username" required autofocus />
+
+    <label for="password">Mot de passe</label>
+    <input id="password" name="password" type="password" autocomplete="current-password" required />
+
+    <button type="submit">Entrer</button>
+    <p id="error" class="error" hidden></p>
+  </form>
+
+  <script src="login.js"></script>
+</body>
+</html>

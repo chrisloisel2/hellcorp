@@ -1,0 +1,89 @@
+html, body {
+  margin: 0;
+  height: 100%;
+  font-family: Georgia, "Times New Roman", serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: url("assets/login_wallpaper.png") center center / cover no-repeat;
+  filter: brightness(0.55);
+  z-index: 0;
+}
+
+.login-panel {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 300px;
+  padding: 32px 28px;
+  background: rgba(15, 8, 8, 0.72);
+  border: 1px solid #6b1616;
+  border-radius: 6px;
+  box-shadow: 0 0 40px rgba(200, 20, 20, 0.25);
+  color: #eadfd2;
+}
+
+.login-panel h1 {
+  margin: 0;
+  text-align: center;
+  color: #e23c3c;
+  letter-spacing: 2px;
+  text-shadow: 0 0 12px rgba(226, 60, 60, 0.6);
+}
+
+.subtitle {
+  margin: 0 0 10px;
+  text-align: center;
+  font-size: 0.85rem;
+  color: #b8a99a;
+}
+
+label {
+  font-size: 0.8rem;
+  color: #cbb9a8;
+}
+
+input {
+  padding: 8px 10px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid #5a2626;
+  border-radius: 4px;
+  color: #f2e9df;
+  font-size: 0.95rem;
+}
+
+input:focus {
+  outline: none;
+  border-color: #e23c3c;
+}
+
+button {
+  margin-top: 12px;
+  padding: 10px;
+  background: linear-gradient(#8a1c1c, #5c1010);
+  border: 1px solid #e23c3c;
+  border-radius: 4px;
+  color: #f2e9df;
+  font-size: 1rem;
+  letter-spacing: 1px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: linear-gradient(#a52222, #6b1414);
+}
+
+.error {
+  margin: 4px 0 0;
+  color: #ff6b6b;
+  font-size: 0.85rem;
+  text-align: center;
+}

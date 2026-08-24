@@ -1,0 +1,9 @@
+{
+  "name": "hellcorp-motion-studio-cli",
+  "private": true,
+  "type": "module",
+  "description": "Automatisation CLI (Playwright) de HellCorp Motion Studio : pilote l'app dans un vrai Chrome headless pour analyser un clip et exporter les sprites sans interaction manuelle.",
+  "dependencies": {
+    "playwright": "^1.55.0"
+  }
+}

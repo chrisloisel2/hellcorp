@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HellCorp — Trame narrative</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="story_manager.css" />
+</head>
+<body>
+  <div class="topbar">
+    <span id="whoami"></span>
+    <a href="/game.html">Night Shift</a>
+    <a href="/dashboard.html">Day Shift</a>
+    <a href="/messages.html">Messages</a>
+    <a href="/editor.html">Éditeur de map</a>
+    <a href="/npc_manager.html">Gestion PNJ</a>
+    <button id="logout">Déconnexion</button>
+  </div>
+
+  <div class="story-manager">
+    <div class="story-body">
+      <div class="events-col">
+        <div class="row">
+          <label for="filter-character">Personnage</label>
+          <select id="filter-character">
+            <option value="">Tous</option>
+          </select>
+        </div>
+        <div class="events-list" id="events-list"></div>
+        <button id="new-event-btn" type="button">+ Nouvel événement</button>
+      </div>
+
+      <div class="event-editor" id="event-editor">
+        <p class="hint" id="editor-empty-hint">Sélectionne un événement à gauche, ou crée-en un nouveau.</p>
+
+        <div id="editor-form" hidden>
+          <div class="editor-status-line" id="editor-status-line"></div>
+
+          <div class="row">
+            <label for="ev-key">Clé (identifiant unique)</label>
+            <input id="ev-key" type="text" placeholder="ex: lucy_confession_01" />
+          </div>
+          <div class="row">
+            <label for="ev-character">Personnage</label>
+            <select id="ev-character"></select>
+          </div>
+          <div class="row">
+            <label for="ev-title">Titre</label>
+            <input id="ev-title" type="text" placeholder="ex: Une confidence tardive" />
+          </div>
+          <div class="row align-top">
+            <label for="ev-body">Texte du message</label>
+            <textarea id="ev-body" rows="3" placeholder="Ce que le personnage envoie au joueur quand l'événement se déclenche..."></textarea>
+          </div>
+
+          <h3>Conditions de déclenchement</h3>
+          <div class="row">
+            <label for="ev-flags">Flags requis (séparés par virgule)</label>
+            <input id="ev-flags" type="text" placeholder="ex: lucy_after_hours_done, met_morrigan" />
+          </div>
+          <div class="stat-requirements" id="stat-requirements"></div>
+
+          <h3>Choix de réponse</h3>
+          <div id="choices-list"></div>
+          <button id="add-choice-btn" type="button">+ Ajouter un choix</button>
+
+          <div class="editor-actions">
+            <button id="reset-event-btn" type="button">Réinitialiser (re-testable)</button>
+            <button id="delete-event-btn" type="button" class="danger-btn">Supprimer</button>
+            <button id="save-event-btn" type="button" class="save-btn">Sauvegarder</button>
+          </div>
+          <p id="editor-status" class="status"></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="story-state">
+      <div class="state-panel">
+        <h3>Flags globaux</h3>
+        <div id="flags-list" class="chip-list"></div>
+      </div>
+      <div class="state-panel">
+        <h3>Souvenirs débloqués</h3>
+        <div id="memories-list" class="chip-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="story_manager.js"></script>
+</body>
+</html>

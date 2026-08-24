@@ -1,0 +1,374 @@
+[
+  {
+    "id": "furn_00",
+    "file": "furn_00.png",
+    "width": 265,
+    "height": 266
+  },
+  {
+    "id": "furn_01",
+    "file": "furn_01.png",
+    "width": 246,
+    "height": 253
+  },
+  {
+    "id": "furn_02",
+    "file": "furn_02.png",
+    "width": 252,
+    "height": 219
+  },
+  {
+    "id": "furn_03",
+    "file": "furn_03.png",
+    "width": 253,
+    "height": 204
+  },
+  {
+    "id": "furn_04",
+    "file": "furn_04.png",
+    "width": 269,
+    "height": 207
+  },
+  {
+    "id": "furn_05",
+    "file": "furn_05.png",
+    "width": 331,
+    "height": 189
+  },
+  {
+    "id": "furn_06",
+    "file": "furn_06.png",
+    "width": 268,
+    "height": 173
+  },
+  {
+    "id": "furn_07",
+    "file": "furn_07.png",
+    "width": 103,
+    "height": 168
+  },
+  {
+    "id": "furn_08",
+    "file": "furn_08.png",
+    "width": 95,
+    "height": 158
+  },
+  {
+    "id": "furn_09",
+    "file": "furn_09.png",
+    "width": 98,
+    "height": 148
+  },
+  {
+    "id": "furn_10",
+    "file": "furn_10.png",
+    "width": 107,
+    "height": 144
+  },
+  {
+    "id": "furn_11",
+    "file": "furn_11.png",
+    "width": 102,
+    "height": 193
+  },
+  {
+    "id": "furn_12",
+    "file": "furn_12.png",
+    "width": 110,
+    "height": 175
+  },
+  {
+    "id": "furn_13",
+    "file": "furn_13.png",
+    "width": 134,
+    "height": 154
+  },
+  {
+    "id": "furn_14",
+    "file": "furn_14.png",
+    "width": 286,
+    "height": 138
+  },
+  {
+    "id": "furn_15",
+    "file": "furn_15.png",
+    "width": 279,
+    "height": 128
+  },
+  {
+    "id": "furn_16",
+    "file": "furn_16.png",
+    "width": 194,
+    "height": 131
+  },
+  {
+    "id": "furn_17",
+    "file": "furn_17.png",
+    "width": 114,
+    "height": 132
+  },
+  {
+    "id": "furn_18",
+    "file": "furn_18.png",
+    "width": 171,
+    "height": 228
+  },
+  {
+    "id": "furn_19",
+    "file": "furn_19.png",
+    "width": 138,
+    "height": 207
+  },
+  {
+    "id": "furn_20",
+    "file": "furn_20.png",
+    "width": 75,
+    "height": 187
+  },
+  {
+    "id": "furn_21",
+    "file": "furn_21.png",
+    "width": 115,
+    "height": 176
+  },
+  {
+    "id": "furn_22",
+    "file": "furn_22.png",
+    "width": 75,
+    "height": 194
+  },
+  {
+    "id": "furn_23",
+    "file": "furn_23.png",
+    "width": 87,
+    "height": 190
+  },
+  {
+    "id": "furn_24",
+    "file": "furn_24.png",
+    "width": 107,
+    "height": 172
+  },
+  {
+    "id": "furn_25",
+    "file": "furn_25.png",
+    "width": 100,
+    "height": 141
+  },
+  {
+    "id": "furn_26",
+    "file": "furn_26.png",
+    "width": 129,
+    "height": 146
+  },
+  {
+    "id": "furn_27",
+    "file": "furn_27.png",
+    "width": 106,
+    "height": 126
+  },
+  {
+    "id": "furn_28",
+    "file": "furn_28.png",
+    "width": 184,
+    "height": 235
+  },
+  {
+    "id": "furn_29",
+    "file": "furn_29.png",
+    "width": 124,
+    "height": 229
+  },
+  {
+    "id": "furn_30",
+    "file": "furn_30.png",
+    "width": 136,
+    "height": 229
+  },
+  {
+    "id": "furn_31",
+    "file": "furn_31.png",
+    "width": 224,
+    "height": 217
+  },
+  {
+    "id": "furn_32",
+    "file": "furn_32.png",
+    "width": 208,
+    "height": 210
+  },
+  {
+    "id": "furn_33",
+    "file": "furn_33.png",
+    "width": 135,
+    "height": 210
+  },
+  {
+    "id": "furn_34",
+    "file": "furn_34.png",
+    "width": 323,
+    "height": 208
+  },
+  {
+    "id": "props_00",
+    "file": "props_00.png",
+    "width": 132,
+    "height": 230
+  },
+  {
+    "id": "props_01",
+    "file": "props_01.png",
+    "width": 299,
+    "height": 228
+  },
+  {
+    "id": "props_02",
+    "file": "props_02.png",
+    "width": 300,
+    "height": 227
+  },
+  {
+    "id": "props_03",
+    "file": "props_03.png",
+    "width": 278,
+    "height": 219
+  },
+  {
+    "id": "props_04",
+    "file": "props_04.png",
+    "width": 28,
+    "height": 49
+  },
+  {
+    "id": "props_05",
+    "file": "props_05.png",
+    "width": 171,
+    "height": 161
+  },
+  {
+    "id": "props_06",
+    "file": "props_06.png",
+    "width": 97,
+    "height": 162
+  },
+  {
+    "id": "props_07",
+    "file": "props_07.png",
+    "width": 204,
+    "height": 283
+  },
+  {
+    "id": "props_08",
+    "file": "props_08.png",
+    "width": 228,
+    "height": 257
+  },
+  {
+    "id": "props_09",
+    "file": "props_09.png",
+    "width": 250,
+    "height": 222
+  },
+  {
+    "id": "props_10",
+    "file": "props_10.png",
+    "width": 306,
+    "height": 222
+  },
+  {
+    "id": "props_11",
+    "file": "props_11.png",
+    "width": 154,
+    "height": 179
+  },
+  {
+    "id": "props_12",
+    "file": "props_12.png",
+    "width": 140,
+    "height": 154
+  },
+  {
+    "id": "props_13",
+    "file": "props_13.png",
+    "width": 298,
+    "height": 231
+  },
+  {
+    "id": "props_14",
+    "file": "props_14.png",
+    "width": 182,
+    "height": 241
+  },
+  {
+    "id": "props_15",
+    "file": "props_15.png",
+    "width": 155,
+    "height": 227
+  },
+  {
+    "id": "props_16",
+    "file": "props_16.png",
+    "width": 215,
+    "height": 220
+  },
+  {
+    "id": "props_17",
+    "file": "props_17.png",
+    "width": 327,
+    "height": 231
+  },
+  {
+    "id": "props_18",
+    "file": "props_18.png",
+    "width": 301,
+    "height": 222
+  },
+  {
+    "id": "props_19",
+    "file": "props_19.png",
+    "width": 189,
+    "height": 208
+  },
+  {
+    "id": "props_20",
+    "file": "props_20.png",
+    "width": 165,
+    "height": 231
+  },
+  {
+    "id": "props_21",
+    "file": "props_21.png",
+    "width": 242,
+    "height": 175
+  },
+  {
+    "id": "props_22",
+    "file": "props_22.png",
+    "width": 263,
+    "height": 208
+  },
+  {
+    "id": "props_23",
+    "file": "props_23.png",
+    "width": 156,
+    "height": 162
+  },
+  {
+    "id": "props_24",
+    "file": "props_24.png",
+    "width": 233,
+    "height": 205
+  },
+  {
+    "id": "props_25",
+    "file": "props_25.png",
+    "width": 319,
+    "height": 191
+  },
+  {
+    "id": "props_26",
+    "file": "props_26.png",
+    "width": 201,
+    "height": 185
+  }
+]
