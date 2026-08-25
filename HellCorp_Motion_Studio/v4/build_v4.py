@@ -110,9 +110,9 @@ class OrganicLegGroundingV4 {
     const horizontalLock = Number(this.config.horizontalLock ?? 0.96);
     const verticalLock = Number(this.config.verticalLock ?? 0.42);
     const target = ankle.clone();
-    target.x = lerp(ankle.x, anchor.x, horizontalLock * w);
-    target.z = lerp(ankle.z, anchor.z, horizontalLock * w);
-    target.y = lerp(ankle.y, anchor.y, verticalLock * w);
+    target.x = THREE.MathUtils.lerp(ankle.x, anchor.x, horizontalLock * w);
+    target.z = THREE.MathUtils.lerp(ankle.z, anchor.z, horizontalLock * w);
+    target.y = THREE.MathUtils.lerp(ankle.y, anchor.y, verticalLock * w);
 
     let toTarget = target.clone().sub(hip);
     let dist = toTarget.length();
