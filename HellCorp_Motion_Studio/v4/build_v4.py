@@ -32,9 +32,6 @@ function organicWorldQuaternion(boneName) {
   return out;
 }
 
-// Rotate a bone from its CURRENT authored orientation toward a desired child
-// direction. This preserves the authored twist much better than rebuilding the
-// local rotation from T-pose every frame.
 function organicAimBone(boneName, childName, targetWorld, blend = 1) {
   const bone = getBone(boneName);
   const child = getBone(childName);
@@ -73,6 +70,42 @@ function organicRestoreFootWorldOrientation(side, wantedWorldQ, blend) {
   currentVrm.scene.updateMatrixWorld(true);
 }
 
+class OrganicInertialRigV4 {
+  constructor(config = {}) {
+    this.config = config || {};
+    this.state = new Map();
+  }
+
+  reset() { this.state.clear(); }
+
+  apply(dt) {
+    if (this.config?.enabled === false || !currentVrm) return;
+    const defaults = {
+      spine: 14.0, chest: 11.5, upperChest: 9.5,
+      leftShoulder: 10.0, rightShoulder: 10.5,
+      leftUpperArm: 12.5, rightUpperArm: 12.0,
+      leftLowerArm: 9.0, rightLowerArm: 9.4,
+      leftHand: 7.0, rightHand: 7.4,
+      neck: 13.5, head: 18.0,
+    };
+    const responses = { ...defaults, ...(this.config.responses || {}) };
+
+    for (const [name, rateRaw] of Object.entries(responses)) {
+      const bone = getBone(name);
+      if (!bone) continue;
+      const target = bone.quaternion.clone();
+      let previous = this.state.get(name);
+      if (!previous) previous = target.clone();
+      const rate = Math.max(0.01, Number(rateRaw || 1));
+      const alpha = 1 - Math.exp(-rate * Math.max(1e-4, dt));
+      previous.slerp(target, clamp(alpha, 0, 1));
+      bone.quaternion.copy(previous);
+      this.state.set(name, previous.clone());
+    }
+    currentVrm.scene.updateMatrixWorld(true);
+  }
+}
+
 class OrganicLegGroundingV4 {
   constructor(config = {}) {
     this.config = config || {};
@@ -104,11 +137,12 @@ class OrganicLegGroundingV4 {
     const lowerLen = knee.distanceTo(ankle);
     if (upperLen < 1e-5 || lowerLen < 1e-5) return;
 
-    const w = organicSmooth01(Math.pow(clamp(rawWeight, 0, 1), Number(this.config.ikBlendExponent ?? 0.72)));
+    const exponent = Number(this.config.ikBlendExponent ?? 0.86);
+    const w = organicSmooth01(Math.pow(clamp(rawWeight, 0, 1), exponent));
     if (w <= 1e-5) return;
 
-    const horizontalLock = Number(this.config.horizontalLock ?? 0.96);
-    const verticalLock = Number(this.config.verticalLock ?? 0.42);
+    const horizontalLock = Number(this.config.horizontalLock ?? 0.90);
+    const verticalLock = Number(this.config.verticalLock ?? 0.30);
     const target = ankle.clone();
     target.x = THREE.MathUtils.lerp(ankle.x, anchor.x, horizontalLock * w);
     target.z = THREE.MathUtils.lerp(ankle.z, anchor.z, horizontalLock * w);
@@ -117,21 +151,17 @@ class OrganicLegGroundingV4 {
     let toTarget = target.clone().sub(hip);
     let dist = toTarget.length();
     if (dist < 1e-6) return;
-    const reachMargin = Number(this.config.maxReachMargin ?? 0.008);
+    const reachMargin = Number(this.config.maxReachMargin ?? 0.010);
     const minReach = Math.abs(upperLen - lowerLen) + reachMargin;
     const maxReach = Math.max(minReach + 1e-4, upperLen + lowerLen - reachMargin);
     dist = clamp(dist, minReach, maxReach);
     const dir = toTarget.normalize();
     const reachableTarget = hip.clone().addScaledVector(dir, dist);
 
-    // Keep the knee on the same side of the leg plane as the authored pose.
-    // This is critical for avoiding sudden backward/inverted knees.
     const hipToKnee = knee.clone().sub(hip);
     const along = hipToKnee.dot(dir);
     let pole = hipToKnee.clone().sub(dir.clone().multiplyScalar(along));
     if (pole.lengthSq() < 1e-7) {
-      // Front-view fallback: bend toward the viewer while removing any component
-      // parallel to the hip->ankle axis.
       pole = new THREE.Vector3(0, 0, 1);
       pole.sub(dir.clone().multiplyScalar(pole.dot(dir)));
       if (pole.lengthSq() < 1e-7) {
@@ -149,20 +179,19 @@ class OrganicLegGroundingV4 {
     organicAimBone(upperName, lowerName, kneeTarget, w);
     currentVrm.scene.updateMatrixWorld(true);
     organicAimBone(lowerName, footName, reachableTarget, w);
-
-    // Keep the authored heel-strike / flat-foot / toe-off orientation instead of
-    // letting IK make the shoe wobble as the knee solves.
     organicRestoreFootWorldOrientation(
       side,
       authoredFootWorldQ,
-      Number(this.config.preserveFootOrientation ?? 0.92) * w,
+      Number(this.config.preserveFootOrientation ?? 0.90) * w,
     );
   }
 
   apply(pose) {
     if (this.config?.enabled === false || !currentVrm) return;
-    const acquire = Number(this.config.acquireWeight ?? 0.10);
-    const release = Number(this.config.releaseWeight ?? 0.025);
+    const acquire = Number(this.config.acquireWeight ?? 0.12);
+    const release = Number(this.config.releaseWeight ?? 0.030);
+    const settleWeight = Number(this.config.anchorSettleWeight ?? 0.48);
+    const anchorFollow = clamp(Number(this.config.anchorFollow ?? 0.16), 0, 1);
 
     currentVrm.scene.updateMatrixWorld(true);
     for (const side of ['left', 'right']) {
@@ -173,6 +202,12 @@ class OrganicLegGroundingV4 {
       } else if (weight <= release) {
         this.anchors[side] = null;
       }
+
+      if (this.anchors[side] && footPos && weight < settleWeight) {
+        const settle = anchorFollow * (1 - weight / Math.max(settleWeight, 1e-5));
+        this.anchors[side].lerp(footPos, clamp(settle, 0, 1));
+      }
+
       if (this.anchors[side]) this.solveLeg(side, this.anchors[side], weight);
     }
   }
@@ -227,8 +262,9 @@ window.__renderOrganicWalk = async (profile, preset, options = {}) => {
   const runtime = createOrganicGaitRuntime(profile, preset, { fps });
   const count = runtime.framesPerCycle * cycles;
   const dt = 1 / fps;
-  const preRollFrames = Math.max(runtime.framesPerCycle, Number(options.preRollFrames || 0));
+  const preRollFrames = Math.max(runtime.framesPerCycle * 2, Number(options.preRollFrames || 0));
   const grounding = new OrganicLegGroundingV4(preset?.grounding || { enabled: true });
+  const inertia = new OrganicInertialRigV4(preset?.rigDynamics || { enabled: true });
 
   const root = await navigator.storage.getDirectory();
   const outDir = await childDir(root, outputName);
@@ -241,12 +277,12 @@ window.__renderOrganicWalk = async (profile, preset, options = {}) => {
   setView(view);
   els.posterize.checked = false;
 
-  // Full-cycle deterministic preroll: spring bones settle and support-foot
-  // anchors are acquired in the exact same cyclic state as the exported loop.
   grounding.reset();
+  inertia.reset();
   for (let i = -preRollFrames; i < 0; i++) {
     const pose = runtime.frame(i);
     applyOrganicPoseV4(pose);
+    inertia.apply(dt);
     grounding.apply(pose);
     renderScenePostFX(dt, renderSize);
   }
@@ -254,18 +290,19 @@ window.__renderOrganicWalk = async (profile, preset, options = {}) => {
   for (let i = 0; i < count; i++) {
     const pose = runtime.frame(i);
     applyOrganicPoseV4(pose);
+    inertia.apply(dt);
     grounding.apply(pose);
     renderScenePostFX(dt, renderSize);
     const frameCanvas = copyRenderToWork(size);
     await writeBlob(framesDir, `frame_${String(i).padStart(6, '0')}.png`, await canvasBlob(frameCanvas));
     if ((i & 1) === 0 || i === count - 1) {
-      setProgress((i + 1) / count, `Organic V4 ${i + 1}/${count}`);
+      setProgress((i + 1) / count, `Organic V4.1 ${i + 1}/${count}`);
       await nextFrame();
     }
   }
 
   const manifest = {
-    format: 'HellCorpOrganicRenderV1',
+    format: 'HellCorpOrganicRenderV2',
     character: profile?.name || stem(currentVrmFile),
     vrm: currentVrmFile?.name || null,
     preset: preset?.name || 'organic_walk',
@@ -278,17 +315,19 @@ window.__renderOrganicWalk = async (profile, preset, options = {}) => {
     view,
     output_name: outputName,
     grounding: preset?.grounding || null,
+    rig_dynamics: preset?.rigDynamics || null,
     summary: organicGaitSummary(profile, preset),
   };
   await writeText(outDir, 'manifest.json', JSON.stringify(manifest, null, 2));
 
   renderer.setSize(768, 768, false);
   grounding.reset();
+  inertia.reset();
   resetVrmPose();
   setView(previewView);
   renderScene();
-  setProgress(1, `Organic V4 complete: ${outputName}`);
-  log(`ORGANIC V4 complete: ${outputName}, ${count} frames at ${fps} FPS.`);
+  setProgress(1, `Organic V4.1 complete: ${outputName}`);
+  log(`ORGANIC V4.1 complete: ${outputName}, ${count} frames at ${fps} FPS.`);
   return manifest;
 };
 '''
@@ -300,8 +339,8 @@ def main() -> None:
 
     html = INDEX.read_text(encoding="utf-8")
     html = html.replace('<script type="module" src="app.js"></script>', '<script type="module" src="app_v4.js"></script>', 1)
-    html = html.replace('<title>HellCorp Motion Studio</title>', '<title>HellCorp Motion Studio V4 - Organic Gait</title>', 1)
-    html = html.replace('<h1>HellCorp Motion Studio</h1>', '<h1>HellCorp Motion Studio V4 - Organic Gait</h1>', 1)
+    html = html.replace('<title>HellCorp Motion Studio</title>', '<title>HellCorp Motion Studio V4.1 - Organic Rig</title>', 1)
+    html = html.replace('<h1>HellCorp Motion Studio</h1>', '<h1>HellCorp Motion Studio V4.1 - Organic Rig</h1>', 1)
     INDEX_V4.write_text(html, encoding="utf-8")
     print(f"Generated {DST.relative_to(ROOT)}")
     print(f"Generated {INDEX_V4.relative_to(ROOT)}")
