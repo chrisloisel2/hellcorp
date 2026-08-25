@@ -1,0 +1,54 @@
+{
+  "id": "lucy",
+  "version": 1,
+  "canonical_view": "front",
+  "source_art": "art/front.png",
+  "canvas": {
+    "width": 552,
+    "height": 1536
+  },
+  "rest_pose": {
+    "pelvis": {"x": 0.5, "y": 0.59}
+  },
+  "motion": {
+    "angle_smoothing": 0.2,
+    "max_angle_jump_deg": 42,
+    "pixel_snap": true
+  },
+  "bones": {
+    "pelvis": {"rest_angle_rad": 0, "limits_deg": [-30, 30]},
+    "spine": {"rest_angle_rad": -1.57079632679, "limits_deg": [-25, 25]},
+    "chest": {"rest_angle_rad": -1.57079632679, "limits_deg": [-25, 25]},
+    "neck": {"rest_angle_rad": -1.57079632679, "limits_deg": [-25, 25]},
+    "head": {"rest_angle_rad": -1.57079632679, "limits_deg": [-20, 20]},
+    "upper_arm_l": {"rest_angle_rad": 1.57079632679, "limits_deg": [-95, 95]},
+    "forearm_l": {"rest_angle_rad": 1.57079632679, "limits_deg": [-125, 125]},
+    "hand_l": {"rest_angle_rad": 1.57079632679, "limits_deg": [-80, 80]},
+    "upper_arm_r": {"rest_angle_rad": 1.57079632679, "limits_deg": [-95, 95]},
+    "forearm_r": {"rest_angle_rad": 1.57079632679, "limits_deg": [-125, 125]},
+    "hand_r": {"rest_angle_rad": 1.57079632679, "limits_deg": [-80, 80]},
+    "thigh_l": {"rest_angle_rad": 1.57079632679, "limits_deg": [-75, 75]},
+    "calf_l": {"rest_angle_rad": 1.57079632679, "limits_deg": [-110, 65]},
+    "foot_l": {"rest_angle_rad": 0, "limits_deg": [-55, 55]},
+    "thigh_r": {"rest_angle_rad": 1.57079632679, "limits_deg": [-75, 75]},
+    "calf_r": {"rest_angle_rad": 1.57079632679, "limits_deg": [-110, 65]},
+    "foot_r": {"rest_angle_rad": 0, "limits_deg": [-55, 55]}
+  },
+  "layers": [
+    {"id": "hair_back", "bone": "head", "z": 10},
+    {"id": "leg_r", "bone": "thigh_r", "z": 20},
+    {"id": "leg_l", "bone": "thigh_l", "z": 21},
+    {"id": "pelvis", "bone": "pelvis", "z": 30},
+    {"id": "torso", "bone": "chest", "z": 40},
+    {"id": "arm_r", "bone": "upper_arm_r", "z": 45},
+    {"id": "arm_l", "bone": "upper_arm_l", "z": 46},
+    {"id": "head", "bone": "head", "z": 50},
+    {"id": "hair_front", "bone": "head", "z": 60},
+    {"id": "accessories", "bone": "chest", "z": 70}
+  ],
+  "secondary_motion": {
+    "hair": {"stiffness": 0.72, "damping": 0.82, "max_deg": 12},
+    "lanyard": {"stiffness": 0.48, "damping": 0.72, "max_deg": 20},
+    "skirt": {"stiffness": 0.78, "damping": 0.86, "max_deg": 8}
+  }
+}
