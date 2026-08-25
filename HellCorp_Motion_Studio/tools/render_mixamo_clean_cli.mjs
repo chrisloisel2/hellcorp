@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { chromium } from 'playwright';
 import { spawn } from 'node:child_process';
-import { mkdir, writeFile } from 'node:fs/promises';
+import { mkdir, writeFile, rm } from 'node:fs/promises';
 import path from 'node:path';
 import net from 'node:net';
 import { fileURLToPath } from 'node:url';
@@ -156,6 +156,7 @@ async function main() {
     });
 
     await mkdir(outDir, { recursive: true });
+    await rm(path.join(outDir, outputName), { recursive: true, force: true });
     for (const file of files) {
       const dest = path.join(outDir, file.path);
       await mkdir(path.dirname(dest), { recursive: true });
