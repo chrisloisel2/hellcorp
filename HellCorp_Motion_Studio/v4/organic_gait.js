@@ -1,8 +1,8 @@
-// HellCorp Motion Studio V4 - organic procedural gait runtime.
+// HellCorp Motion Studio V4.1 - organic procedural gait runtime.
 //
-// Goal: produce a convincing character-performance walk, not a literal mocap
-// reconstruction. The runtime is deterministic and works entirely in normalized
-// VRM humanoid bone space. Grounding is handled later by the V4 two-bone IK pass.
+// V4.1 focuses on de-rigidifying the whole body: phased spine/chest motion,
+// scapular movement, delayed elbow/wrist response, relaxed fingers, load/release
+// timing and deliberate left/right asymmetry. The runtime is deterministic.
 
 const TAU = Math.PI * 2;
 
@@ -11,7 +11,6 @@ function lerp(a, b, t) { return a + (b - a) * t; }
 function wrap01(v) { return ((v % 1) + 1) % 1; }
 function smooth01(t) { t = clamp(t, 0, 1); return t * t * (3 - 2 * t); }
 function smoother01(t) { t = clamp(t, 0, 1); return t * t * t * (t * (t * 6 - 15) + 10); }
-function clone(v) { return v == null ? v : JSON.parse(JSON.stringify(v)); }
 
 function hash32(n) {
   n = (n ^ 61) ^ (n >>> 16);
@@ -69,13 +68,11 @@ function gaussianPhase(phase, center, width) {
   return Math.exp(-(d * d) / (2 * s * s));
 }
 
-// A leg is in stance from heel strike (phase 0) until toe-off (~0.60).
-// The soft envelope is used both for weight transfer and renderer-side IK.
-function stanceWeight(stepPhase, stanceEnd = 0.60, enter = 0.055, leave = 0.075) {
+function stanceWeight(stepPhase, stanceEnd = 0.60, enter = 0.075, leave = 0.095) {
   const p = wrap01(stepPhase);
   if (p > stanceEnd) return 0;
-  const a = smooth01(p / Math.max(enter, 1e-5));
-  const b = smooth01((stanceEnd - p) / Math.max(leave, 1e-5));
+  const a = smoother01(p / Math.max(enter, 1e-5));
+  const b = smoother01((stanceEnd - p) / Math.max(leave, 1e-5));
   return Math.min(a, b);
 }
 
@@ -113,18 +110,19 @@ function mergeConfig(profile, preset) {
     torso: { ...(profile?.gait?.torso || {}), ...(preset?.gait?.torso || {}) },
     legs: { ...(profile?.gait?.legs || {}), ...(preset?.gait?.legs || {}) },
     arms: { ...(profile?.gait?.arms || {}), ...(preset?.gait?.arms || {}) },
+    hands: { ...(profile?.gait?.hands || {}), ...(preset?.gait?.hands || {}) },
+    breathing: { ...(profile?.gait?.breathing || {}), ...(preset?.gait?.breathing || {}) },
     head: { ...(profile?.gait?.head || {}), ...(preset?.gait?.head || {}) },
     face: { ...(profile?.gait?.face || {}), ...(preset?.gait?.face || {}) },
   };
 }
 
 function warpedPhase(phase, cfg) {
-  // Small periodic time warp: loading response is a little faster than the
-  // float phase, while passing/up phases breathe slightly longer. This removes
-  // the metronomic quality of a pure sine walk without breaking loop closure.
-  const amount = Number(cfg.timeWarp ?? 0.014);
-  const skew = Number(cfg.timeWarpSkew ?? -0.28);
-  return wrap01(phase + amount * Math.sin(TAU * 2 * phase + skew));
+  const amount = Number(cfg.timeWarp ?? 0.012);
+  const skew = Number(cfg.timeWarpSkew ?? -0.24);
+  const primary = Math.sin(TAU * 2 * phase + skew) * amount;
+  const secondary = Math.sin(TAU * 4 * phase + 0.55) * amount * 0.22;
+  return wrap01(phase + primary + secondary);
 }
 
 function legPose(stepPhase, cfg, sideScale = 1) {
@@ -133,36 +131,45 @@ function legPose(stepPhase, cfg, sideScale = 1) {
   const kneeAmp = Number(cfg.kneeSwing ?? 1.0) * sideScale;
   const footAmp = Number(cfg.footRoll ?? 1.0) * sideScale;
 
-  // One complete stride for one leg. Values are radians and intentionally use
-  // asymmetric stance/swing timing rather than a sinusoid.
   const hip = sampleCyclic([
-    [0.00, 0.295], [0.10, 0.215], [0.24, 0.055], [0.39, -0.155],
-    [0.54, -0.305], [0.62, -0.340], [0.73, -0.120], [0.84, 0.155], [0.94, 0.315],
-  ], s, 0.42) * hipAmp;
+    [0.00, 0.285], [0.09, 0.220], [0.22, 0.075], [0.38, -0.145],
+    [0.53, -0.285], [0.61, -0.325], [0.72, -0.145], [0.83, 0.120], [0.94, 0.300],
+  ], s, 0.40) * hipAmp;
 
   const knee = sampleCyclic([
-    [0.00, 0.095], [0.09, 0.205], [0.20, 0.115], [0.38, 0.055],
-    [0.52, 0.125], [0.62, 0.610], [0.72, 0.790], [0.82, 0.520], [0.92, 0.205],
-  ], s, 0.40) * kneeAmp;
+    [0.00, 0.110], [0.08, 0.225], [0.20, 0.130], [0.37, 0.060],
+    [0.50, 0.115], [0.61, 0.545], [0.71, 0.735], [0.82, 0.470], [0.93, 0.205],
+  ], s, 0.38) * kneeAmp;
 
   const foot = sampleCyclic([
-    [0.00, -0.125], [0.08, -0.015], [0.21, 0.050], [0.40, 0.095],
-    [0.52, 0.245], [0.60, 0.320], [0.70, 0.040], [0.82, -0.095], [0.94, -0.155],
-  ], s, 0.42) * footAmp;
+    [0.00, -0.115], [0.08, -0.020], [0.20, 0.035], [0.39, 0.080],
+    [0.51, 0.210], [0.60, 0.285], [0.70, 0.035], [0.82, -0.080], [0.94, -0.145],
+  ], s, 0.40) * footAmp;
 
-  // Catwalk-like adduction stays small. It closes the stance without making
-  // the knees cross through each other.
   const adduction = sampleCyclic([
-    [0.00, -0.010], [0.18, -0.016], [0.45, 0.002], [0.65, 0.010], [0.86, -0.004],
-  ], s, 0.44) * Number(cfg.adduction ?? 1.0) * sideScale;
+    [0.00, -0.008], [0.18, -0.013], [0.45, 0.002], [0.66, 0.008], [0.86, -0.003],
+  ], s, 0.42) * Number(cfg.adduction ?? 1.0) * sideScale;
 
-  return { hip, knee, foot, adduction, stance: stanceWeight(s, Number(cfg.stanceEnd ?? 0.60)) };
+  const toe = sampleCyclic([
+    [0.00, 0.00], [0.34, 0.00], [0.50, 0.035], [0.60, 0.120],
+    [0.68, 0.055], [0.80, 0.00], [0.94, 0.00],
+  ], s, 0.40) * Number(cfg.toeRoll ?? 1.0);
+
+  return {
+    hip, knee, foot, adduction, toe,
+    stance: stanceWeight(
+      s,
+      Number(cfg.stanceEnd ?? 0.60),
+      Number(cfg.stanceEnter ?? 0.075),
+      Number(cfg.stanceLeave ?? 0.095),
+    ),
+  };
 }
 
 function applyLegs(state, phase, cfg) {
-  const asym = Number(cfg.asymmetry ?? 0.035);
+  const asym = Number(cfg.asymmetry ?? 0.025);
   const left = legPose(phase, cfg, 1 + asym);
-  const right = legPose(phase + 0.5, cfg, 1 - asym * 0.7);
+  const right = legPose(phase + 0.5, cfg, 1 - asym * 0.65);
 
   const lu = ensureBone(state.bones, 'leftUpperLeg');
   const ru = ensureBone(state.bones, 'rightUpperLeg');
@@ -170,6 +177,8 @@ function applyLegs(state, phase, cfg) {
   const rl = ensureBone(state.bones, 'rightLowerLeg');
   const lf = ensureBone(state.bones, 'leftFoot');
   const rf = ensureBone(state.bones, 'rightFoot');
+  const lt = ensureBone(state.bones, 'leftToes');
+  const rt = ensureBone(state.bones, 'rightToes');
 
   lu.x += left.hip;
   ru.x += right.hip;
@@ -177,6 +186,8 @@ function applyLegs(state, phase, cfg) {
   rl.x += right.knee;
   lf.x += left.foot;
   rf.x += right.foot;
+  lt.x += left.toe;
+  rt.x += right.toe;
   lu.z += left.adduction;
   ru.z -= right.adduction;
 
@@ -188,28 +199,27 @@ function applyLegs(state, phase, cfg) {
 function applyWeightAndPelvis(state, phase, cfg, legs) {
   const p = TAU * phase;
   const pelvis = ensureBone(state.bones, 'hips');
-
   const leftW = legs.left.stance;
   const rightW = legs.right.stance;
   const sum = leftW + rightW;
-  const balance = sum > 1e-5 ? (rightW - leftW) / sum : Math.sin(p);
+  const rawBalance = sum > 1e-5 ? (rightW - leftW) / sum : Math.sin(p);
+  const balance = Math.tanh(rawBalance * Number(cfg.balanceSoftness ?? 1.25));
 
-  // COM travels toward the stance leg, but only a few millimetres. The old V3
-  // moved the whole avatar by centimetres, which read as suspension from a wire.
-  state.root.x += balance * Number(cfg.shiftX ?? 0.0042);
-
-  // Human walking has two vertical peaks per stride. Lowest points are near
-  // double-support/heel strike; mid-stance rises as the support leg straightens.
-  const vertical = -Math.cos(p * 2) * Number(cfg.bobY ?? 0.0060)
-    + Math.cos(p * 4 + 0.45) * Number(cfg.bobSecondary ?? 0.0010);
+  state.root.x += balance * Number(cfg.shiftX ?? 0.0030);
+  const vertical = -Math.cos(p * 2) * Number(cfg.bobY ?? 0.0062)
+    + Math.cos(p * 4 + 0.42) * Number(cfg.bobSecondary ?? 0.0012);
   state.root.y += vertical;
 
-  // Pelvis motion is coupled to weight transfer instead of being a free pendulum.
-  pelvis.z += balance * Number(cfg.roll ?? 0.032);
-  pelvis.y += Math.cos(p) * Number(cfg.yaw ?? 0.026);
-  pelvis.x += (-Math.cos(p * 2)) * Number(cfg.pitch ?? 0.0075);
+  const loadLeft = gaussianPhase(phase, 0.02, Number(cfg.loadWidth ?? 0.075));
+  const loadRight = gaussianPhase(phase, 0.52, Number(cfg.loadWidth ?? 0.075));
+  const load = loadLeft + loadRight;
 
-  return { balance, vertical };
+  pelvis.z += balance * Number(cfg.roll ?? 0.038);
+  pelvis.y += Math.cos(p + Number(cfg.yawPhase ?? 0.02)) * Number(cfg.yaw ?? 0.029);
+  pelvis.x += (-Math.cos(p * 2 + 0.10)) * Number(cfg.pitch ?? 0.0090)
+    + load * Number(cfg.loadPitch ?? 0.0040);
+
+  return { balance, vertical, load, leftW, rightW };
 }
 
 function applyTorso(state, phase, cfg, pelvisInfo) {
@@ -220,29 +230,46 @@ function applyTorso(state, phase, cfg, pelvisInfo) {
   const lShoulder = ensureBone(state.bones, 'leftShoulder');
   const rShoulder = ensureBone(state.bones, 'rightShoulder');
 
-  const counterYaw = -Math.cos(p + Number(cfg.phaseLag ?? 0.16)) * Number(cfg.counterYaw ?? 0.020);
-  const counterRoll = -pelvisInfo.balance * Number(cfg.counterRoll ?? 0.012);
+  const lag = Number(cfg.phaseLag ?? 0.18);
+  const counterYaw = Number(cfg.counterYaw ?? 0.026);
+  const counterRoll = Number(cfg.counterRoll ?? 0.018);
+  const pitchWave = Number(cfg.pitchWave ?? 0.012);
+  const lateralFlex = Number(cfg.lateralFlex ?? 0.010);
 
-  spine.y += counterYaw * 0.55;
-  chest.y += counterYaw;
-  upperChest.y += counterYaw * 0.35;
-  spine.z += counterRoll * 0.55;
-  chest.z += counterRoll;
+  spine.y += -Math.cos(p + lag * 0.45) * counterYaw * 0.42;
+  chest.y += -Math.cos(p + lag * 0.95) * counterYaw * 0.78;
+  upperChest.y += -Math.cos(p + lag * 1.35) * counterYaw * 0.48;
 
-  // Shoulders travel in opposition to the pelvis and are deliberately delayed.
-  const shoulderSwing = -Math.cos(p + 0.18) * Number(cfg.shoulderYaw ?? 0.014);
-  lShoulder.y += shoulderSwing;
-  rShoulder.y += shoulderSwing;
-  lShoulder.z += -pelvisInfo.balance * Number(cfg.shoulderRoll ?? 0.006);
-  rShoulder.z += -pelvisInfo.balance * Number(cfg.shoulderRoll ?? 0.006);
+  spine.z += -pelvisInfo.balance * counterRoll * 0.34
+    + Math.sin(p * 2 + 0.55) * lateralFlex * 0.25;
+  chest.z += -pelvisInfo.balance * counterRoll * 0.72
+    + Math.sin(p * 2 + 0.78) * lateralFlex * 0.50;
+  upperChest.z += -pelvisInfo.balance * counterRoll * 0.46
+    + Math.sin(p * 2 + 0.96) * lateralFlex * 0.38;
+
+  spine.x += Math.cos(p * 2 + 0.28) * pitchWave * 0.30
+    - pelvisInfo.load * Number(cfg.loadAbsorb ?? 0.0040);
+  chest.x += Math.cos(p * 2 + 0.54) * pitchWave * 0.58
+    + pelvisInfo.load * Number(cfg.chestRecoil ?? 0.0035);
+  upperChest.x += Math.cos(p * 2 + 0.80) * pitchWave * 0.34;
+
+  const lForward = (Math.cos(p - Number(cfg.armPhase ?? 0.12)) + 1) * 0.5;
+  const rForward = 1 - lForward;
+  const protraction = Number(cfg.shoulderProtraction ?? 0.010);
+  const lift = Number(cfg.shoulderLift ?? 0.006);
+  lShoulder.x += (lForward - 0.5) * protraction;
+  rShoulder.x += (rForward - 0.5) * protraction;
+  lShoulder.z += -pelvisInfo.balance * Number(cfg.shoulderRoll ?? 0.007) + (lForward - 0.5) * lift;
+  rShoulder.z += -pelvisInfo.balance * Number(cfg.shoulderRoll ?? 0.007) - (rForward - 0.5) * lift;
 }
 
 function applyArms(state, phase, cfg) {
   const p = TAU * phase;
-  const amp = Number(cfg.swing ?? 0.115);
-  const asym = Number(cfg.asymmetry ?? 0.055);
-  const lag = Number(cfg.lag ?? 0.10);
-  const swing = Math.cos(p - lag);
+  const amp = Number(cfg.swing ?? 0.145);
+  const asym = Number(cfg.asymmetry ?? 0.045);
+  const lag = Number(cfg.lag ?? 0.14);
+  const leftDriver = Math.cos(p - lag);
+  const rightDriver = -Math.cos(p - lag * 1.08);
 
   const lua = ensureBone(state.bones, 'leftUpperArm');
   const rua = ensureBone(state.bones, 'rightUpperArm');
@@ -251,30 +278,82 @@ function applyArms(state, phase, cfg) {
   const lh = ensureBone(state.bones, 'leftHand');
   const rh = ensureBone(state.bones, 'rightHand');
 
-  // Opposite arm to forward leg. The upper arms remain hanging down because the
-  // profile owns the large Z-axis down rotation; gait only adds modest X swing.
-  lua.x += -swing * amp * (1 + asym);
-  rua.x += swing * amp * (1 - asym * 0.6);
+  lua.x += -leftDriver * amp * (1 + asym);
+  rua.x += -rightDriver * amp * (1 - asym * 0.55);
 
-  // Elbows flex more when the corresponding arm swings forward and relax back.
-  const lForward = clamp((swing + 1) * 0.5, 0, 1);
-  const rForward = clamp((-swing + 1) * 0.5, 0, 1);
-  lla.x += -Number(cfg.elbowFlex ?? 0.040) * (0.35 + lForward * 0.65);
-  rla.x += -Number(cfg.elbowFlex ?? 0.040) * (0.35 + rForward * 0.65);
+  const twist = Number(cfg.upperArmTwist ?? 0.030);
+  lua.y += Math.sin(p - lag - 0.20) * twist;
+  rua.y -= Math.sin(p - lag * 1.06 - 0.20) * twist * 0.92;
+  const armPlane = Number(cfg.armPlane ?? 0.014);
+  lua.z += Math.sin(p * 2 + 0.35) * armPlane;
+  rua.z -= Math.sin(p * 2 + 0.55) * armPlane * 0.90;
 
-  const handLag = p - lag - 0.30;
-  lh.x += -Math.cos(handLag) * Number(cfg.handLag ?? 0.018);
-  rh.x += Math.cos(handLag) * Number(cfg.handLag ?? 0.018);
-  lh.z += Math.sin(p * 0.5 + 0.3) * Number(cfg.handRoll ?? 0.007);
-  rh.z += Math.sin(p * 0.5 + 2.7) * Number(cfg.handRoll ?? 0.007);
+  const lForward = clamp((leftDriver + 1) * 0.5, 0, 1);
+  const rForward = clamp((rightDriver + 1) * 0.5, 0, 1);
+  const elbowFlex = Number(cfg.elbowFlex ?? 0.085);
+  lla.x += -elbowFlex * (0.34 + lForward * 0.66);
+  rla.x += -elbowFlex * (0.34 + rForward * 0.66);
+  const elbowTwist = Number(cfg.elbowTwist ?? 0.014);
+  lla.y += Math.sin(p - lag - 0.42) * elbowTwist;
+  rla.y -= Math.sin(p - lag - 0.48) * elbowTwist;
+
+  const wristPhase = p - lag - Number(cfg.wristLag ?? 0.48);
+  const handFlex = Number(cfg.handFlex ?? 0.035);
+  const pronation = Number(cfg.pronation ?? 0.045);
+  const deviation = Number(cfg.handDeviation ?? 0.020);
+  lh.x += -Math.cos(wristPhase) * handFlex;
+  rh.x += Math.cos(wristPhase + 0.08) * handFlex * 0.92;
+  lh.y += Math.sin(wristPhase - 0.20) * pronation;
+  rh.y -= Math.sin(wristPhase - 0.12) * pronation * 0.92;
+  lh.z += Math.sin(wristPhase * 0.92 + 0.25) * deviation;
+  rh.z -= Math.sin(wristPhase * 0.92 + 0.42) * deviation * 0.90;
+}
+
+function applyHands(state, phase, cfg) {
+  if (cfg?.enabled === false) return;
+  const p = TAU * phase;
+  const curlScale = Number(cfg.curlScale ?? 1.0);
+  const pulse = Number(cfg.curlPulse ?? 0.025);
+  const pulseL = 1 + Math.sin(p - 0.48) * pulse;
+  const pulseR = 1 + Math.sin(p + Math.PI - 0.34) * pulse * 0.90;
+
+  const fingers = {
+    Index: [0.14, 0.24, 0.07],
+    Middle: [0.17, 0.30, 0.09],
+    Ring: [0.21, 0.35, 0.11],
+    Little: [0.25, 0.39, 0.13],
+    ...(cfg.fingerCurl || {}),
+  };
+  const segments = ['Proximal', 'Intermediate', 'Distal'];
+
+  for (const [side, sign, pulseSide] of [['left', 1, pulseL], ['right', -1, pulseR]]) {
+    for (const [digit, values] of Object.entries(fingers)) {
+      for (let i = 0; i < segments.length; i++) {
+        const bone = ensureBone(state.bones, `${side}${digit}${segments[i]}`);
+        bone.z += sign * Number(values[i] || 0) * curlScale * pulseSide;
+      }
+    }
+  }
+
+  const thumb = cfg.thumb || {};
+  const leftThumb = ensureBone(state.bones, 'leftThumbProximal');
+  const rightThumb = ensureBone(state.bones, 'rightThumbProximal');
+  leftThumb.x += Number(thumb.x ?? -0.055);
+  rightThumb.x += Number(thumb.x ?? -0.055);
+  leftThumb.y += Number(thumb.y ?? 0.090);
+  rightThumb.y -= Number(thumb.y ?? 0.090);
+  leftThumb.z += Number(thumb.z ?? 0.065);
+  rightThumb.z -= Number(thumb.z ?? 0.065);
 }
 
 function applyBreathing(state, phase, cfg) {
   const p = TAU * (phase * Number(cfg.cycles ?? 0.5) + Number(cfg.phase ?? 0.13));
   const breath = Math.sin(p);
-  ensureBone(state.bones, 'chest').x += breath * Number(cfg.chestPitch ?? 0.0060);
+  const secondary = Math.sin(p * 2 + 0.40) * 0.18;
+  ensureBone(state.bones, 'chest').x += (breath + secondary) * Number(cfg.chestPitch ?? 0.0060);
   ensureBone(state.bones, 'spine').x += breath * Number(cfg.spinePitch ?? 0.0030);
-  state.root.y += breath * Number(cfg.rootLift ?? 0.0012);
+  ensureBone(state.bones, 'upperChest').x += breath * Number(cfg.upperChestPitch ?? 0.0020);
+  state.root.y += breath * Number(cfg.rootLift ?? 0.0011);
 }
 
 function applyHead(state, phase, cfg, pelvisInfo, seed) {
@@ -282,13 +361,15 @@ function applyHead(state, phase, cfg, pelvisInfo, seed) {
   const head = ensureBone(state.bones, 'head');
   const neck = ensureBone(state.bones, 'neck');
   const chest = ensureBone(state.bones, 'chest');
+  const upperChest = ensureBone(state.bones, 'upperChest');
   const hips = ensureBone(state.bones, 'hips');
 
-  // Vestibular-style counter-motion. It cancels most body wobble, but not all:
-  // a perfectly fixed head also reads synthetic.
-  head.z -= (hips.z * 0.38 + chest.z * 0.48) * Number(cfg.rollStabilization ?? 0.72);
-  head.y -= (hips.y * 0.30 + chest.y * 0.50) * Number(cfg.yawStabilization ?? 0.62);
-  neck.z -= chest.z * Number(cfg.neckCounter ?? 0.18);
+  head.z -= (hips.z * 0.30 + chest.z * 0.42 + upperChest.z * 0.22)
+    * Number(cfg.rollStabilization ?? 0.68);
+  head.y -= (hips.y * 0.22 + chest.y * 0.44 + upperChest.y * 0.20)
+    * Number(cfg.yawStabilization ?? 0.58);
+  neck.z -= chest.z * Number(cfg.neckCounter ?? 0.16);
+  neck.y -= upperChest.y * Number(cfg.neckYawCounter ?? 0.08);
 
   const n1 = signedNoise(seed, 31);
   const n2 = signedNoise(seed, 67);
@@ -319,7 +400,6 @@ function sampleEyeTargets(phase, targets) {
   if (t2 <= t1) t2 += 1;
   if (pp < t1) pp += 1;
   const raw = clamp((pp - t1) / Math.max(1e-6, t2 - t1), 0, 1);
-  // Eyes hold, then make a short smooth saccade.
   const u = raw < 0.82 ? 0 : smoother01((raw - 0.82) / 0.18);
   return {
     x: lerp(Number(current.x || 0), Number(next.x || 0), u),
@@ -355,7 +435,8 @@ function evaluateFrame(profile, preset, phase, frameIndex, fps) {
   const pelvisInfo = applyWeightAndPelvis(state, gaitPhase, cfg.pelvis, legs);
   applyTorso(state, gaitPhase, cfg.torso, pelvisInfo);
   applyArms(state, gaitPhase, cfg.arms);
-  applyBreathing(state, phase, cfg.breathing || {});
+  applyHands(state, gaitPhase, cfg.hands);
+  applyBreathing(state, phase, cfg.breathing);
   applyHead(state, gaitPhase, cfg.head, pelvisInfo, seed);
   applyAsymmetry(state, profile);
   applyFace(state, phase, cfg.face, profile, preset);
@@ -375,7 +456,7 @@ function evaluateFrame(profile, preset, phase, frameIndex, fps) {
 
 export function createOrganicGaitRuntime(profile, preset, options = {}) {
   const fps = Number(options.fps || preset?.fps || 30);
-  const duration = Number(preset?.duration || 1.40);
+  const duration = Number(preset?.duration || 1.46);
   const framesPerCycle = Math.max(8, Math.round(duration * fps));
   return {
     fps,
@@ -390,12 +471,13 @@ export function createOrganicGaitRuntime(profile, preset, options = {}) {
 
 export function organicGaitSummary(profile, preset) {
   return {
-    format: 'HellCorpOrganicGaitV1',
+    format: 'HellCorpOrganicGaitV2',
     character: profile?.name || 'character',
     preset: preset?.name || 'organic_walk',
     fps: Number(preset?.fps || 30),
-    duration: Number(preset?.duration || 1.40),
+    duration: Number(preset?.duration || 1.46),
     deterministic: true,
-    grounding: 'two-bone support-leg IK in renderer',
+    upper_body: 'multi-segment delayed torso + scapula + elbow/wrist/finger lag',
+    grounding: 'soft two-bone support-leg IK in renderer',
   };
 }
