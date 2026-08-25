@@ -1,0 +1,100 @@
+{
+  "format": "HellCorpOrganicCharacterV1",
+  "name": "Lucy",
+  "seed": 1707,
+  "baseRoot": { "x": 0.0, "y": 0.0, "z": 0.0 },
+  "basePose": {
+    "hips": { "x": 0.0, "y": 0.0, "z": 0.0 },
+    "spine": { "x": -0.010, "y": 0.0, "z": 0.0 },
+    "chest": { "x": 0.018, "y": 0.0, "z": 0.0 },
+    "upperChest": { "x": 0.010, "y": 0.0, "z": 0.0 },
+    "neck": { "x": -0.006, "y": 0.0, "z": 0.0 },
+    "head": { "x": 0.010, "y": 0.0, "z": -0.008 },
+
+    "leftShoulder": { "x": 0.0, "y": 0.0, "z": -0.010 },
+    "rightShoulder": { "x": 0.0, "y": 0.0, "z": 0.010 },
+    "leftUpperArm": { "x": -0.018, "y": 0.018, "z": -1.305 },
+    "rightUpperArm": { "x": -0.012, "y": -0.018, "z": 1.305 },
+    "leftLowerArm": { "x": -0.205, "y": 0.008, "z": 0.024 },
+    "rightLowerArm": { "x": -0.190, "y": -0.008, "z": -0.024 },
+    "leftHand": { "x": -0.016, "y": 0.006, "z": 0.050 },
+    "rightHand": { "x": -0.014, "y": -0.006, "z": -0.046 },
+
+    "leftUpperLeg": { "x": 0.0, "y": 0.0, "z": 0.010 },
+    "rightUpperLeg": { "x": 0.0, "y": 0.0, "z": -0.010 },
+    "leftLowerLeg": { "x": 0.035, "y": 0.0, "z": 0.0 },
+    "rightLowerLeg": { "x": 0.035, "y": 0.0, "z": 0.0 },
+    "leftFoot": { "x": -0.015, "y": 0.0, "z": 0.0 },
+    "rightFoot": { "x": -0.015, "y": 0.0, "z": 0.0 }
+  },
+  "asymmetry": {
+    "head.rotation.z": -0.004,
+    "leftShoulder.rotation.z": 0.002,
+    "rightUpperArm.rotation.x": 0.005,
+    "leftHand.rotation.z": 0.006
+  },
+  "expressions": {
+    "happy": 0.08,
+    "relaxed": 0.16
+  },
+  "blinkTimes": [0.31, 0.83],
+  "eyeTargets": [
+    { "t": 0.00, "x": 0.000, "y": -0.004 },
+    { "t": 0.26, "x": 0.020, "y": -0.008 },
+    { "t": 0.57, "x": -0.012, "y": -0.002 },
+    { "t": 0.84, "x": 0.006, "y": -0.006 }
+  ],
+  "gait": {
+    "timeWarp": 0.014,
+    "timeWarpSkew": -0.28,
+    "pelvis": {
+      "shiftX": 0.0040,
+      "bobY": 0.0058,
+      "bobSecondary": 0.0009,
+      "roll": 0.030,
+      "yaw": 0.024,
+      "pitch": 0.0070
+    },
+    "torso": {
+      "counterYaw": 0.018,
+      "counterRoll": 0.010,
+      "shoulderYaw": 0.012,
+      "shoulderRoll": 0.005,
+      "phaseLag": 0.16
+    },
+    "legs": {
+      "hipSwing": 0.96,
+      "kneeSwing": 0.94,
+      "footRoll": 0.94,
+      "adduction": 0.78,
+      "asymmetry": 0.030,
+      "stanceEnd": 0.60
+    },
+    "arms": {
+      "swing": 0.105,
+      "asymmetry": 0.050,
+      "lag": 0.11,
+      "elbowFlex": 0.038,
+      "handLag": 0.016,
+      "handRoll": 0.006
+    },
+    "breathing": {
+      "cycles": 0.5,
+      "phase": 0.13,
+      "chestPitch": 0.0055,
+      "spinePitch": 0.0027,
+      "rootLift": 0.0010
+    },
+    "head": {
+      "rollStabilization": 0.74,
+      "yawStabilization": 0.64,
+      "neckCounter": 0.18,
+      "microYaw": 0.0020,
+      "microRoll": 0.0015,
+      "microPitch": 0.0013
+    },
+    "face": {
+      "blinkWidth": 0.024
+    }
+  }
+}
