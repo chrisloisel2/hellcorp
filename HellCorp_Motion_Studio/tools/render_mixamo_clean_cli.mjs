@@ -69,7 +69,11 @@ async function main() {
 
   let serverProc = null;
   if (!(await portOpen(port))) {
-    serverProc = spawn('python3', ['launch.py'], { cwd: STUDIO_DIR, stdio: 'ignore', detached: true });
+    serverProc = spawn(
+      'python3',
+      ['-m', 'http.server', String(port), '--bind', '127.0.0.1'],
+      { cwd: STUDIO_DIR, stdio: 'ignore', detached: true },
+    );
     if (!(await waitForPort(port))) throw new Error(`Local server did not start on port ${port}.`);
   }
 
@@ -102,7 +106,6 @@ async function main() {
     await page.setInputFiles('#fbxInput', fbxPath);
     await page.waitForFunction(() => document.getElementById('status')?.textContent === 'Mixamo animation ready');
 
-    // Re-run the conversion explicitly when non-default options are requested.
     if (rootMode !== 'preserve' || clipSelector != null) {
       await page.evaluate(async ({ rootMode, clipSelector, view }) => {
         const file = document.getElementById('fbxInput').files[0];
