@@ -2,8 +2,10 @@
   "name": "hellcorp-motion-studio-cli",
   "private": true,
   "type": "module",
-  "description": "Automatisation CLI (Playwright) de HellCorp Motion Studio : pilote l'app dans un vrai Chrome headless pour analyser un clip et exporter les sprites sans interaction manuelle.",
+  "description": "HellCorp Motion Studio CLI and deterministic Mixamo-to-VRM validation runtime.",
   "dependencies": {
-    "playwright": "^1.55.0"
+    "@pixiv/three-vrm": "3.5.5",
+    "playwright": "^1.55.0",
+    "three": "0.180.0"
   }
 }
