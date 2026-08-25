@@ -74,7 +74,7 @@ command -v ffmpeg >/dev/null || { echo "ffmpeg is required" >&2; exit 1; }
 
 if [[ ! -d tools/node_modules/playwright || ! -d tools/node_modules/three || ! -d tools/node_modules/@pixiv/three-vrm ]]; then
   echo "Installing pinned Mixamo clean runtime dependencies..."
-  (cd tools && npm install)
+  (cd tools && npm install && npx playwright install chromium)
 fi
 
 if [[ -z "$NAME" ]]; then
