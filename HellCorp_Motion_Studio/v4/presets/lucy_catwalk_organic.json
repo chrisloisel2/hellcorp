@@ -1,79 +1,123 @@
 {
-  "format": "HellCorpOrganicPresetV1",
+  "format": "HellCorpOrganicPresetV2",
   "name": "lucy_catwalk_organic",
   "fps": 30,
   "duration": 1.46,
   "seed": 4242,
   "expressions": {
     "happy": 0.09,
-    "relaxed": 0.17,
+    "relaxed": 0.18,
     "mouthOpen": 0.0
   },
   "blinkTimes": [0.30, 0.82],
   "eyeTargets": [
     { "t": 0.00, "x": 0.000, "y": -0.004 },
-    { "t": 0.28, "x": 0.017, "y": -0.008 },
+    { "t": 0.28, "x": 0.016, "y": -0.008 },
     { "t": 0.59, "x": -0.010, "y": -0.003 },
     { "t": 0.86, "x": 0.005, "y": -0.006 }
   ],
   "gait": {
-    "timeWarp": 0.017,
-    "timeWarpSkew": -0.30,
+    "timeWarp": 0.012,
+    "timeWarpSkew": -0.24,
     "pelvis": {
-      "shiftX": 0.0038,
-      "bobY": 0.0056,
-      "bobSecondary": 0.0008,
-      "roll": 0.032,
-      "yaw": 0.026,
-      "pitch": 0.0075
+      "shiftX": 0.0030,
+      "bobY": 0.0064,
+      "bobSecondary": 0.0013,
+      "roll": 0.039,
+      "yaw": 0.030,
+      "pitch": 0.0093,
+      "loadPitch": 0.0042,
+      "loadWidth": 0.076,
+      "balanceSoftness": 1.22
     },
     "torso": {
-      "counterYaw": 0.019,
-      "counterRoll": 0.011,
-      "shoulderYaw": 0.013,
-      "shoulderRoll": 0.0055,
-      "phaseLag": 0.17
+      "counterYaw": 0.027,
+      "counterRoll": 0.019,
+      "pitchWave": 0.0125,
+      "lateralFlex": 0.0105,
+      "loadAbsorb": 0.0042,
+      "chestRecoil": 0.0038,
+      "shoulderProtraction": 0.011,
+      "shoulderLift": 0.0065,
+      "shoulderRoll": 0.0075,
+      "armPhase": 0.13,
+      "phaseLag": 0.19
     },
     "legs": {
-      "hipSwing": 1.00,
-      "kneeSwing": 0.96,
-      "footRoll": 0.96,
-      "adduction": 0.82,
-      "asymmetry": 0.032,
-      "stanceEnd": 0.60
+      "hipSwing": 0.95,
+      "kneeSwing": 0.91,
+      "footRoll": 0.92,
+      "toeRoll": 0.82,
+      "adduction": 0.72,
+      "asymmetry": 0.025,
+      "stanceEnd": 0.60,
+      "stanceEnter": 0.078,
+      "stanceLeave": 0.100
     },
     "arms": {
-      "swing": 0.108,
-      "asymmetry": 0.052,
-      "lag": 0.11,
-      "elbowFlex": 0.040,
-      "handLag": 0.017,
-      "handRoll": 0.0065
+      "swing": 0.148,
+      "asymmetry": 0.046,
+      "lag": 0.145,
+      "upperArmTwist": 0.032,
+      "armPlane": 0.015,
+      "elbowFlex": 0.088,
+      "elbowTwist": 0.015,
+      "wristLag": 0.50,
+      "handFlex": 0.037,
+      "pronation": 0.047,
+      "handDeviation": 0.021
+    },
+    "hands": {
+      "enabled": true,
+      "curlScale": 1.0,
+      "curlPulse": 0.022
     },
     "breathing": {
       "cycles": 0.5,
       "phase": 0.12,
-      "chestPitch": 0.0058,
-      "spinePitch": 0.0028,
-      "rootLift": 0.0010
+      "chestPitch": 0.0063,
+      "spinePitch": 0.0031,
+      "upperChestPitch": 0.0021,
+      "rootLift": 0.0011
     },
     "head": {
-      "rollStabilization": 0.75,
-      "yawStabilization": 0.65,
-      "neckCounter": 0.19,
+      "rollStabilization": 0.69,
+      "yawStabilization": 0.59,
+      "neckCounter": 0.16,
+      "neckYawCounter": 0.08,
       "microYaw": 0.0020,
       "microRoll": 0.0015,
       "microPitch": 0.0012
     }
   },
+  "rigDynamics": {
+    "enabled": true,
+    "responses": {
+      "spine": 14.0,
+      "chest": 11.5,
+      "upperChest": 9.5,
+      "leftShoulder": 10.0,
+      "rightShoulder": 10.5,
+      "leftUpperArm": 12.5,
+      "rightUpperArm": 12.0,
+      "leftLowerArm": 9.0,
+      "rightLowerArm": 9.4,
+      "leftHand": 7.0,
+      "rightHand": 7.4,
+      "neck": 13.5,
+      "head": 18.0
+    }
+  },
   "grounding": {
     "enabled": true,
-    "acquireWeight": 0.10,
-    "releaseWeight": 0.025,
-    "horizontalLock": 0.96,
-    "verticalLock": 0.42,
-    "ikBlendExponent": 0.72,
-    "maxReachMargin": 0.008,
-    "preserveFootOrientation": 0.92
+    "acquireWeight": 0.12,
+    "releaseWeight": 0.030,
+    "anchorSettleWeight": 0.48,
+    "anchorFollow": 0.16,
+    "horizontalLock": 0.90,
+    "verticalLock": 0.30,
+    "ikBlendExponent": 0.86,
+    "maxReachMargin": 0.010,
+    "preserveFootOrientation": 0.90
   }
 }
