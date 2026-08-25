@@ -12,16 +12,16 @@ VIEW="front"
 SIZE="512"
 CYCLES="2"
 FPS=""
-NAME="lucy_catwalk_organic_v4"
+NAME="lucy_catwalk_organic_v41"
 BG="0x2b2320"
 
 usage() {
   cat <<'EOF'
 Usage: bash tools/run_organic_walk_cli.sh [options]
 
-V4 organic walk pipeline:
-  build V4 -> procedural gait -> weight transfer -> two-bone support-leg IK
-  -> deterministic cel render -> MP4 + GIF
+V4.1 organic-rig pipeline:
+  build -> procedural gait -> phased torso/scapula rig -> elbow/wrist/finger lag
+  -> inertial upper-body solver -> soft support-leg IK -> render -> MP4 + GIF
 
 Options:
   --vrm PATH          VRM file
@@ -102,14 +102,12 @@ PY
 RAW_MP4="$RESULT_DIR/${NAME}.mp4"
 RAW_GIF="$RESULT_DIR/${NAME}.gif"
 
-# MP4 is the motion-quality reference.
 ffmpeg -loglevel error -y \
   -framerate "$RENDER_FPS" -i "$FRAMES/frame_%06d.png" \
   -f lavfi -i "color=c=${BG}:s=${SIZE}x${SIZE}:r=${RENDER_FPS}" \
   -filter_complex "[1:v][0:v]overlay=shortest=1:format=auto,format=yuv420p" \
   -c:v libx264 -crf 15 -preset medium "$RAW_MP4"
 
-# GIF is only a convenience preview; alpha is composited before palette creation.
 ffmpeg -loglevel error -y \
   -framerate "$RENDER_FPS" -i "$FRAMES/frame_%06d.png" \
   -f lavfi -i "color=c=${BG}:s=${SIZE}x${SIZE}:r=${RENDER_FPS}" \
