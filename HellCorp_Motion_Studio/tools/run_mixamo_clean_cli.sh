@@ -72,8 +72,8 @@ command -v ffmpeg >/dev/null || { echo "ffmpeg is required" >&2; exit 1; }
 [[ -f "$VRM" ]] || { echo "VRM not found: $VRM" >&2; exit 1; }
 [[ -f "$FBX" ]] || { echo "FBX not found: $FBX" >&2; exit 1; }
 
-if [[ ! -d tools/node_modules/playwright ]]; then
-  echo "Installing Playwright..."
+if [[ ! -d tools/node_modules/playwright || ! -d tools/node_modules/three || ! -d tools/node_modules/@pixiv/three-vrm ]]; then
+  echo "Installing pinned Mixamo clean runtime dependencies..."
   (cd tools && npm install)
 fi
 
