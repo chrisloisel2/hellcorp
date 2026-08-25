@@ -1,0 +1,190 @@
+18 frames in this short test
+guides ready
+Fetching 17 files:   0%|          | 0/17 [00:00<?, ?it/s]Fetching 17 files: 100%|██████████| 17/17 [00:00<00:00, 3810.76it/s]
+Loading pipeline components...:   0%|          | 0/7 [00:00<?, ?it/s]Loading pipeline components...:  43%|████▎     | 3/7 [00:00<00:00,  8.68it/s]Loading pipeline components...:  71%|███████▏  | 5/7 [00:00<00:00, 11.79it/s]There are modules in UNet2DConditionModel that should be kept in float32: []. Casting directly with `to()` can lead to inconsistent results; set `torch_dtype` in `from_pretrained()` instead to keep these modules in float32.
+There are modules in AutoencoderKL that should be kept in float32: []. Casting directly with `to()` can lead to inconsistent results; set `torch_dtype` in `from_pretrained()` instead to keep these modules in float32.
+Loading pipeline components...: 100%|██████████| 7/7 [00:00<00:00, 11.50it/s]Loading pipeline components...: 100%|██████████| 7/7 [00:00<00:00, 11.08it/s]
+No LoRA keys associated to CLIPTextModel found with the prefix='text_encoder'. This is safe to ignore if LoRA state dict didn't originally have any CLIPTextModel related params. You can also try specifying `prefix=None` to resolve the warning. Otherwise, open an issue if you think it's unexpected: https://github.com/huggingface/diffusers/issues/new
+No LoRA keys associated to CLIPTextModelWithProjection found with the prefix='text_encoder_2'. This is safe to ignore if LoRA state dict didn't originally have any CLIPTextModelWithProjection related params. You can also try specifying `prefix=None` to resolve the warning. Otherwise, open an issue if you think it's unexpected: https://github.com/huggingface/diffusers/issues/new
+pipeline + lora ready
+There are modules in AutoencoderKL that should be kept in float32: []. Casting directly with `to()` can lead to inconsistent results; set `torch_dtype` in `from_pretrained()` instead to keep these modules in float32.
+There are modules in AutoencoderKL that should be kept in float32: []. Casting directly with `to()` can lead to inconsistent results; set `torch_dtype` in `from_pretrained()` instead to keep these modules in float32.
+/Users/christopher/HellCEO/hellcorp/sdxl_lora_bench/.venv/lib/python3.14/site-packages/diffusers/pipelines/stable_diffusion_xl/pipeline_stable_diffusion_xl_img2img.py:896: FutureWarning: `upcast_vae` is deprecated and will be removed in version 1.0.0. `upcast_vae` is deprecated. Please use `pipe.vae.to(torch.float32)`. For more details, please refer to: https://github.com/huggingface/diffusers/pull/12619#issue-3606633695.
+  deprecate(
+There are modules in AutoencoderKL that should be kept in float32: []. Casting directly with `to()` can lead to inconsistent results; set `torch_dtype` in `from_pretrained()` instead to keep these modules in float32.
+There are modules in AutoencoderKL that should be kept in float32: []. Casting directly with `to()` can lead to inconsistent results; set `torch_dtype` in `from_pretrained()` instead to keep these modules in float32.
+There are modules in AutoencoderKL that should be kept in float32: []. Casting directly with `to()` can lead to inconsistent results; set `torch_dtype` in `from_pretrained()` instead to keep these modules in float32.
+There are modules in AutoencoderKL that should be kept in float32: []. Casting directly with `to()` can lead to inconsistent results; set `torch_dtype` in `from_pretrained()` instead to keep these modules in float32.
+There are modules in AutoencoderKL that should be kept in float32: []. Casting directly with `to()` can lead to inconsistent results; set `torch_dtype` in `from_pretrained()` instead to keep these modules in float32.
+There are modules in AutoencoderKL that should be kept in float32: []. Casting directly with `to()` can lead to inconsistent results; set `torch_dtype` in `from_pretrained()` instead to keep these modules in float32.
+[keyframe 0] done in 38.8s
+There are modules in AutoencoderKL that should be kept in float32: []. Casting directly with `to()` can lead to inconsistent results; set `torch_dtype` in `from_pretrained()` instead to keep these modules in float32.
+There are modules in AutoencoderKL that should be kept in float32: []. Casting directly with `to()` can lead to inconsistent results; set `torch_dtype` in `from_pretrained()` instead to keep these modules in float32.
+There are modules in AutoencoderKL that should be kept in float32: []. Casting directly with `to()` can lead to inconsistent results; set `torch_dtype` in `from_pretrained()` instead to keep these modules in float32.
+There are modules in AutoencoderKL that should be kept in float32: []. Casting directly with `to()` can lead to inconsistent results; set `torch_dtype` in `from_pretrained()` instead to keep these modules in float32.
+There are modules in AutoencoderKL that should be kept in float32: []. Casting directly with `to()` can lead to inconsistent results; set `torch_dtype` in `from_pretrained()` instead to keep these modules in float32.
+There are modules in AutoencoderKL that should be kept in float32: []. Casting directly with `to()` can lead to inconsistent results; set `torch_dtype` in `from_pretrained()` instead to keep these modules in float32.
+There are modules in AutoencoderKL that should be kept in float32: []. Casting directly with `to()` can lead to inconsistent results; set `torch_dtype` in `from_pretrained()` instead to keep these modules in float32.
+There are modules in AutoencoderKL that should be kept in float32: []. Casting directly with `to()` can lead to inconsistent results; set `torch_dtype` in `from_pretrained()` instead to keep these modules in float32.
+[keyframe 9] done in 44.8s
+There are modules in AutoencoderKL that should be kept in float32: []. Casting directly with `to()` can lead to inconsistent results; set `torch_dtype` in `from_pretrained()` instead to keep these modules in float32.
+There are modules in AutoencoderKL that should be kept in float32: []. Casting directly with `to()` can lead to inconsistent results; set `torch_dtype` in `from_pretrained()` instead to keep these modules in float32.
+There are modules in AutoencoderKL that should be kept in float32: []. Casting directly with `to()` can lead to inconsistent results; set `torch_dtype` in `from_pretrained()` instead to keep these modules in float32.
+There are modules in AutoencoderKL that should be kept in float32: []. Casting directly with `to()` can lead to inconsistent results; set `torch_dtype` in `from_pretrained()` instead to keep these modules in float32.
+There are modules in AutoencoderKL that should be kept in float32: []. Casting directly with `to()` can lead to inconsistent results; set `torch_dtype` in `from_pretrained()` instead to keep these modules in float32.
+There are modules in AutoencoderKL that should be kept in float32: []. Casting directly with `to()` can lead to inconsistent results; set `torch_dtype` in `from_pretrained()` instead to keep these modules in float32.
+There are modules in AutoencoderKL that should be kept in float32: []. Casting directly with `to()` can lead to inconsistent results; set `torch_dtype` in `from_pretrained()` instead to keep these modules in float32.
+There are modules in AutoencoderKL that should be kept in float32: []. Casting directly with `to()` can lead to inconsistent results; set `torch_dtype` in `from_pretrained()` instead to keep these modules in float32.
+[keyframe 17] done in 49.2s
+keyframes styled
+uniformity: 3500
+patchsize: 5
+pyramidlevels: 6
+searchvoteiters: 12
+patchmatchiters: 6
+stopthreshold: 5
+extrapass3x3: yes
+backend: cpu
+result was written to /Users/christopher/HellCEO/hellcorp/sdxl_lora_bench/out/lucy_short_chain_test/frame_000001.png
+[fwd] frame_000001.png <- frame_000000.png in 59.1s
+uniformity: 3500
+patchsize: 5
+pyramidlevels: 6
+searchvoteiters: 12
+patchmatchiters: 6
+stopthreshold: 5
+extrapass3x3: yes
+backend: cpu
+result was written to /Users/christopher/HellCEO/hellcorp/sdxl_lora_bench/out/lucy_short_chain_test/frame_000002.png
+[fwd] frame_000002.png <- frame_000001.png in 60.2s
+uniformity: 3500
+patchsize: 5
+pyramidlevels: 6
+searchvoteiters: 12
+patchmatchiters: 6
+stopthreshold: 5
+extrapass3x3: yes
+backend: cpu
+result was written to /Users/christopher/HellCEO/hellcorp/sdxl_lora_bench/out/lucy_short_chain_test/frame_000003.png
+[fwd] frame_000003.png <- frame_000002.png in 59.0s
+uniformity: 3500
+patchsize: 5
+pyramidlevels: 6
+searchvoteiters: 12
+patchmatchiters: 6
+stopthreshold: 5
+extrapass3x3: yes
+backend: cpu
+result was written to /Users/christopher/HellCEO/hellcorp/sdxl_lora_bench/out/lucy_short_chain_test/frame_000004.png
+[fwd] frame_000004.png <- frame_000003.png in 62.1s
+uniformity: 3500
+patchsize: 5
+pyramidlevels: 6
+searchvoteiters: 12
+patchmatchiters: 6
+stopthreshold: 5
+extrapass3x3: yes
+backend: cpu
+result was written to /Users/christopher/HellCEO/hellcorp/sdxl_lora_bench/out/lucy_short_chain_test/frame_000008.png
+[bwd] frame_000008.png <- frame_000009.png in 59.4s
+uniformity: 3500
+patchsize: 5
+pyramidlevels: 6
+searchvoteiters: 12
+patchmatchiters: 6
+stopthreshold: 5
+extrapass3x3: yes
+backend: cpu
+result was written to /Users/christopher/HellCEO/hellcorp/sdxl_lora_bench/out/lucy_short_chain_test/frame_000007.png
+[bwd] frame_000007.png <- frame_000008.png in 61.1s
+uniformity: 3500
+patchsize: 5
+pyramidlevels: 6
+searchvoteiters: 12
+patchmatchiters: 6
+stopthreshold: 5
+extrapass3x3: yes
+backend: cpu
+result was written to /Users/christopher/HellCEO/hellcorp/sdxl_lora_bench/out/lucy_short_chain_test/frame_000006.png
+[bwd] frame_000006.png <- frame_000007.png in 59.5s
+uniformity: 3500
+patchsize: 5
+pyramidlevels: 6
+searchvoteiters: 12
+patchmatchiters: 6
+stopthreshold: 5
+extrapass3x3: yes
+backend: cpu
+result was written to /Users/christopher/HellCEO/hellcorp/sdxl_lora_bench/out/lucy_short_chain_test/frame_000005.png
+[bwd] frame_000005.png <- frame_000006.png in 61.3s
+uniformity: 3500
+patchsize: 5
+pyramidlevels: 6
+searchvoteiters: 12
+patchmatchiters: 6
+stopthreshold: 5
+extrapass3x3: yes
+backend: cpu
+result was written to /Users/christopher/HellCEO/hellcorp/sdxl_lora_bench/out/lucy_short_chain_test/frame_000010.png
+[fwd] frame_000010.png <- frame_000009.png in 59.2s
+uniformity: 3500
+patchsize: 5
+pyramidlevels: 6
+searchvoteiters: 12
+patchmatchiters: 6
+stopthreshold: 5
+extrapass3x3: yes
+backend: cpu
+result was written to /Users/christopher/HellCEO/hellcorp/sdxl_lora_bench/out/lucy_short_chain_test/frame_000011.png
+[fwd] frame_000011.png <- frame_000010.png in 59.9s
+uniformity: 3500
+patchsize: 5
+pyramidlevels: 6
+searchvoteiters: 12
+patchmatchiters: 6
+stopthreshold: 5
+extrapass3x3: yes
+backend: cpu
+result was written to /Users/christopher/HellCEO/hellcorp/sdxl_lora_bench/out/lucy_short_chain_test/frame_000012.png
+[fwd] frame_000012.png <- frame_000011.png in 58.8s
+uniformity: 3500
+patchsize: 5
+pyramidlevels: 6
+searchvoteiters: 12
+patchmatchiters: 6
+stopthreshold: 5
+extrapass3x3: yes
+backend: cpu
+result was written to /Users/christopher/HellCEO/hellcorp/sdxl_lora_bench/out/lucy_short_chain_test/frame_000013.png
+[fwd] frame_000013.png <- frame_000012.png in 59.7s
+uniformity: 3500
+patchsize: 5
+pyramidlevels: 6
+searchvoteiters: 12
+patchmatchiters: 6
+stopthreshold: 5
+extrapass3x3: yes
+backend: cpu
+result was written to /Users/christopher/HellCEO/hellcorp/sdxl_lora_bench/out/lucy_short_chain_test/frame_000016.png
+[bwd] frame_000016.png <- frame_000017.png in 59.9s
+uniformity: 3500
+patchsize: 5
+pyramidlevels: 6
+searchvoteiters: 12
+patchmatchiters: 6
+stopthreshold: 5
+extrapass3x3: yes
+backend: cpu
+result was written to /Users/christopher/HellCEO/hellcorp/sdxl_lora_bench/out/lucy_short_chain_test/frame_000015.png
+[bwd] frame_000015.png <- frame_000016.png in 64.4s
+uniformity: 3500
+patchsize: 5
+pyramidlevels: 6
+searchvoteiters: 12
+patchmatchiters: 6
+stopthreshold: 5
+extrapass3x3: yes
+backend: cpu
+result was written to /Users/christopher/HellCEO/hellcorp/sdxl_lora_bench/out/lucy_short_chain_test/frame_000014.png
+[bwd] frame_000014.png <- frame_000015.png in 58.0s
+SHORT_TEST_DONE

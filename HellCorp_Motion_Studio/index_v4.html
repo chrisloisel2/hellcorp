@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>HellCorp Motion Studio V4.1 - Organic Rig</title>
+  <link rel="stylesheet" href="style.css" />
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/",
+      "@pixiv/three-vrm": "https://cdn.jsdelivr.net/npm/@pixiv/three-vrm@3.5.5/lib/three-vrm.module.min.js"
+    }
+  }
+  </script>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>HellCorp Motion Studio V4.1 - Organic Rig</h1>
+      <p>VRM + Body Video + Face Video -> sprites 2D</p>
+    </div>
+    <div id="status" class="status">Initialisation...</div>
+  </header>
+
+  <main>
+    <section class="panel inputs">
+      <h2>1. Sources</h2>
+
+      <label class="filebox">
+        <span>VRM</span>
+        <input id="vrmInput" type="file" accept=".vrm,model/gltf-binary" />
+        <strong id="vrmName">Aucun fichier</strong>
+      </label>
+
+      <label class="filebox">
+        <span>Dossier body</span>
+        <input id="bodyFolder" type="file" accept="video/*" webkitdirectory directory multiple />
+        <strong id="bodyCount">0 video</strong>
+      </label>
+
+      <label class="filebox">
+        <span>Dossier face</span>
+        <input id="faceFolder" type="file" accept="video/*" webkitdirectory directory multiple />
+        <strong id="faceCount">0 video</strong>
+      </label>
+
+      <div class="row">
+        <label>Body clip
+          <select id="bodySelect"></select>
+        </label>
+        <label>Face clip
+          <select id="faceSelect"><option value="">Neutre</option></select>
+        </label>
+      </div>
+
+      <div class="row">
+        <label>FPS body
+          <input id="bodyFps" type="number" min="1" max="240" step="0.001" value="0" />
+          <small>0 = auto</small>
+        </label>
+        <label>FPS face
+          <input id="faceFps" type="number" min="1" max="240" step="0.001" value="0" />
+          <small>0 = auto</small>
+        </label>
+      </div>
+
+      <div class="row">
+        <label>Synchronisation face
+          <select id="faceMode">
+            <option value="loop">Boucle</option>
+            <option value="stretch">Etirer sur body</option>
+            <option value="clamp">Maintenir derniere frame</option>
+          </select>
+        </label>
+        <label>FPS export
+          <select id="outputFpsMode">
+            <option value="body">FPS body</option>
+            <option value="max" selected>Max(body, face)</option>
+            <option value="custom">Personnalise</option>
+          </select>
+        </label>
+      </div>
+
+      <label id="customFpsWrap" class="hidden">FPS personnalise
+        <input id="customFps" type="number" min="1" max="240" step="0.001" value="30" />
+      </label>
+    </section>
+
+    <section class="panel preview-panel">
+      <h2>2. Apercu VRM</h2>
+      <div id="viewport">
+        <canvas id="renderCanvas" width="768" height="768"></canvas>
+        <div id="dropHint">Charge un .vrm</div>
+      </div>
+      <div class="row compact">
+        <button data-view="front" class="view active">Face</button>
+        <button data-view="threequarter" class="view">3/4</button>
+        <button data-view="side" class="view">Profil</button>
+        <button data-view="back" class="view">Dos</button>
+      </div>
+      <div id="vrmInfo" class="info"></div>
+    </section>
+
+    <section class="panel export">
+      <h2>3. Rendu</h2>
+      <div class="row">
+        <label>Taille sprite
+          <select id="sizeSelect">
+            <option value="256">256</option>
+            <option value="384">384</option>
+            <option value="512" selected>512</option>
+            <option value="768">768</option>
+            <option value="1024">1024</option>
+            <option value="1536">1536</option>
+            <option value="1920">1920</option>
+            <option value="2048">2048 (2K)</option>
+            <option value="3840">3840 (4K)</option>
+          </select>
+        </label>
+        <label>Force body
+          <input id="bodyStrength" type="number" min="0" max="2" step="0.05" value="1" />
+        </label>
+        <label>Force face
+          <input id="faceStrength" type="number" min="0" max="2" step="0.05" value="1" />
+        </label>
+      </div>
+
+      <fieldset>
+        <legend>Vues a exporter</legend>
+        <label><input class="viewExport" type="checkbox" value="front" checked /> Face</label>
+        <label><input class="viewExport" type="checkbox" value="threequarter" checked /> 3/4</label>
+        <label><input class="viewExport" type="checkbox" value="side" checked /> Profil</label>
+        <label><input class="viewExport" type="checkbox" value="back" checked /> Dos</label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Sortie</legend>
+        <label><input id="individualFrames" type="checkbox" checked /> PNG individuels</label>
+        <label><input id="atlasFrames" type="checkbox" checked /> Atlas 8x8 + manifest Godot</label>
+        <label><input id="lockRoot" type="checkbox" checked /> Animation in-place</label>
+        <label><input id="posterize" type="checkbox" /> Posterisation 2D supplementaire</label>
+      </fieldset>
+
+      <button id="analyzeBtn" class="primary">Analyser le clip selectionne</button>
+      <button id="renderBtn" class="primary" disabled>Rendre les sprites</button>
+      <button id="batchBtn">Batch : toutes les videos body</button>
+
+      <div class="progress-wrap">
+        <progress id="progress" value="0" max="1"></progress>
+        <div id="progressText">Pret</div>
+      </div>
+
+      <pre id="log"></pre>
+    </section>
+  </main>
+
+  <video id="bodyVideo" muted playsinline preload="auto"></video>
+  <video id="faceVideo" muted playsinline preload="auto"></video>
+  <canvas id="workCanvas" width="768" height="768"></canvas>
+
+  <script type="module" src="app_v4.js"></script>
+</body>
+</html>

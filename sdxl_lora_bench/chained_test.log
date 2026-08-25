@@ -1,0 +1,121 @@
+uniformity: 3500
+patchsize: 5
+pyramidlevels: 6
+searchvoteiters: 12
+patchmatchiters: 6
+stopthreshold: 5
+extrapass3x3: yes
+backend: cpu
+result was written to /Users/christopher/HellCEO/hellcorp/sdxl_lora_bench/out/chained_test/frame_000001.png
+[chain] frame_000001.png <- frame_000000.png
+uniformity: 3500
+patchsize: 5
+pyramidlevels: 6
+searchvoteiters: 12
+patchmatchiters: 6
+stopthreshold: 5
+extrapass3x3: yes
+backend: cpu
+result was written to /Users/christopher/HellCEO/hellcorp/sdxl_lora_bench/out/chained_test/frame_000002.png
+[chain] frame_000002.png <- frame_000001.png
+uniformity: 3500
+patchsize: 5
+pyramidlevels: 6
+searchvoteiters: 12
+patchmatchiters: 6
+stopthreshold: 5
+extrapass3x3: yes
+backend: cpu
+result was written to /Users/christopher/HellCEO/hellcorp/sdxl_lora_bench/out/chained_test/frame_000003.png
+[chain] frame_000003.png <- frame_000002.png
+uniformity: 3500
+patchsize: 5
+pyramidlevels: 6
+searchvoteiters: 12
+patchmatchiters: 6
+stopthreshold: 5
+extrapass3x3: yes
+backend: cpu
+result was written to /Users/christopher/HellCEO/hellcorp/sdxl_lora_bench/out/chained_test/frame_000004.png
+[chain] frame_000004.png <- frame_000003.png
+uniformity: 3500
+patchsize: 5
+pyramidlevels: 6
+searchvoteiters: 12
+patchmatchiters: 6
+stopthreshold: 5
+extrapass3x3: yes
+backend: cpu
+result was written to /Users/christopher/HellCEO/hellcorp/sdxl_lora_bench/out/chained_test/frame_000005.png
+[chain] frame_000005.png <- frame_000004.png
+uniformity: 3500
+patchsize: 5
+pyramidlevels: 6
+searchvoteiters: 12
+patchmatchiters: 6
+stopthreshold: 5
+extrapass3x3: yes
+backend: cpu
+result was written to /Users/christopher/HellCEO/hellcorp/sdxl_lora_bench/out/chained_test/frame_000006.png
+[chain] frame_000006.png <- frame_000005.png
+uniformity: 3500
+patchsize: 5
+pyramidlevels: 6
+searchvoteiters: 12
+patchmatchiters: 6
+stopthreshold: 5
+extrapass3x3: yes
+backend: cpu
+result was written to /Users/christopher/HellCEO/hellcorp/sdxl_lora_bench/out/chained_test/frame_000007.png
+[chain] frame_000007.png <- frame_000006.png
+uniformity: 3500
+patchsize: 5
+pyramidlevels: 6
+searchvoteiters: 12
+patchmatchiters: 6
+stopthreshold: 5
+extrapass3x3: yes
+backend: cpu
+result was written to /Users/christopher/HellCEO/hellcorp/sdxl_lora_bench/out/chained_test/frame_000008.png
+[chain] frame_000008.png <- frame_000007.png
+uniformity: 3500
+patchsize: 5
+pyramidlevels: 6
+searchvoteiters: 12
+patchmatchiters: 6
+stopthreshold: 5
+extrapass3x3: yes
+backend: cpu
+result was written to /Users/christopher/HellCEO/hellcorp/sdxl_lora_bench/out/chained_test/frame_000009.png
+[chain] frame_000009.png <- frame_000008.png
+uniformity: 3500
+patchsize: 5
+pyramidlevels: 6
+searchvoteiters: 12
+patchmatchiters: 6
+stopthreshold: 5
+extrapass3x3: yes
+backend: cpu
+result was written to /Users/christopher/HellCEO/hellcorp/sdxl_lora_bench/out/chained_test/frame_000010.png
+[chain] frame_000010.png <- frame_000009.png
+uniformity: 3500
+patchsize: 5
+pyramidlevels: 6
+searchvoteiters: 12
+patchmatchiters: 6
+stopthreshold: 5
+extrapass3x3: yes
+backend: cpu
+result was written to /Users/christopher/HellCEO/hellcorp/sdxl_lora_bench/out/chained_test/frame_000011.png
+[chain] frame_000011.png <- frame_000010.png
+uniformity: 3500
+patchsize: 5
+pyramidlevels: 6
+searchvoteiters: 12
+patchmatchiters: 6
+stopthreshold: 5
+extrapass3x3: yes
+backend: cpu
+result was written to /Users/christopher/HellCEO/hellcorp/sdxl_lora_bench/out/chained_test/frame_000012.png
+[chain] frame_000012.png <- frame_000011.png
+CHAIN_TEST_DONE
