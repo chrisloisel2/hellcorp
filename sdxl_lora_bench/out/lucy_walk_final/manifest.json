@@ -1,0 +1,346 @@
+{
+  "format": "HellCorpVrm2SpriteV1",
+  "reference": "characters_summer_memories/lucy_pixel_art.png",
+  "input_frames_dir": "/Users/christopher/HellCEO/hellcorp/HellCorp_Motion_Studio/mixamo_clean_output/walking_bitch/frames",
+  "output_dir": "/Users/christopher/HellCEO/hellcorp/sdxl_lora_bench/out/lucy_walk_final",
+  "frame_count": 35,
+  "frame_size": [
+    1024,
+    1024
+  ],
+  "fps": 16,
+  "lora": {
+    "path": "/Users/christopher/HellCEO/hellcorp/models/summer_memories_style_unet_only.safetensors",
+    "weight": 0.8
+  },
+  "strength": [
+    0.8,
+    0.35
+  ],
+  "atlas": {
+    "path": "atlas.png",
+    "sha256": "3071437f8e7c6d9147932b11c848562bb713cfe38887cb157ca65466deaa0161",
+    "cols": 6
+  },
+  "gif": {
+    "path": "preview.gif",
+    "sha256": "348ae7cb84b15c3d57bb624bd091ded2bdb2622cf409753bd990d586cba723b9"
+  },
+  "frames": [
+    {
+      "index": 0,
+      "path": "frames/frame_000000.png",
+      "sha256": "8ccf67ebb41b730230659816beb0506074458b4910373575859b7c7b1b3e3eca",
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "index": 1,
+      "path": "frames/frame_000001.png",
+      "sha256": "1177448022a9915dc367a3587b9bf8da5cef07c77da92dffc036ede2da68331a",
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "index": 2,
+      "path": "frames/frame_000002.png",
+      "sha256": "16bcf2aeb8505a2e33e89acbc17ebca6abcf631cc8439053e38e80a69f9dce0b",
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "index": 3,
+      "path": "frames/frame_000003.png",
+      "sha256": "c433c89e83875e7e3899a1bd02c730aa82f25831bf36b6de94765d3b5ac65841",
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "index": 4,
+      "path": "frames/frame_000004.png",
+      "sha256": "051a3dd57ba2653a43010ad78841b0c914ec26d9708371118ccebff6ab3fd526",
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "index": 5,
+      "path": "frames/frame_000005.png",
+      "sha256": "9a9af8de066ca2d89695bd2230d0ecda5d5661cbec7d0994711b45bd50f23500",
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "index": 6,
+      "path": "frames/frame_000006.png",
+      "sha256": "aee2b0aa88fbbb8d143ba11bffa63030bcf2ac12d978742526b987c7400da5f5",
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "index": 7,
+      "path": "frames/frame_000007.png",
+      "sha256": "90694c5e8d1cfc895e5b0b5eee961d01ea9e07994d8251a417cd8e00218cb133",
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "index": 8,
+      "path": "frames/frame_000008.png",
+      "sha256": "7c6f79d018b35c19c5b7daa24757231b56a4c19481903f910adaeb38cb655f06",
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "index": 9,
+      "path": "frames/frame_000009.png",
+      "sha256": "40695c3680d3c45d01ebc86de039ac5ce757f4bcbac86eaa10d843568e25c43d",
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "index": 10,
+      "path": "frames/frame_000010.png",
+      "sha256": "2b96e6b8b699d9a26a340368e3d032164b9196a4d13fa507ec6b3dd47a3c18a2",
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "index": 11,
+      "path": "frames/frame_000011.png",
+      "sha256": "ed8feecd07b67b4a0f74532950011123d15572e06362bd43aad96aabeb3ba7ff",
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "index": 12,
+      "path": "frames/frame_000012.png",
+      "sha256": "bdbe94ad8268f622780077089120d427e6afbd0fa95d2147dc7812150d12d6d8",
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "index": 13,
+      "path": "frames/frame_000013.png",
+      "sha256": "ea28e70afb9650026b3a31ec54d50f4e2ca7ef8400db9d5b8c4e5e921a36d96c",
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "index": 14,
+      "path": "frames/frame_000014.png",
+      "sha256": "873becc6c3c94076b35a95e541f28b80db40e3eec37451be12fe0dad61c16f6f",
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "index": 15,
+      "path": "frames/frame_000015.png",
+      "sha256": "63d0dace1e6b65efd63605b05583501afb2fbb25db41d7cd9b6766a286e972ba",
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "index": 16,
+      "path": "frames/frame_000016.png",
+      "sha256": "68fb0416300860a87a2656f6e8b960b79dffa9c2069a51b607caa111412274f4",
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "index": 17,
+      "path": "frames/frame_000017.png",
+      "sha256": "94418d395bff59bb3b7b1d24e0b8a76f5123eb4298640febf5e83f0d653e204c",
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "index": 18,
+      "path": "frames/frame_000018.png",
+      "sha256": "22dca588b2061e6d99f0b8ef6b9dba0f5c9519edab722fb8ab31ff8f08fb3ff3",
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "index": 19,
+      "path": "frames/frame_000019.png",
+      "sha256": "653887fdc751fc887050936e9b882167a2098f9c4e6ba91e6ae5198a7e36a4d6",
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "index": 20,
+      "path": "frames/frame_000020.png",
+      "sha256": "64b56d12d19ed295417ac24c2550a3e1761afa04dbb23b66cb16765360415857",
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "index": 21,
+      "path": "frames/frame_000021.png",
+      "sha256": "c6721b9a57b30e1092f658f022d6d625f4b41de4113aa96296fcc9f79c5dfab0",
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "index": 22,
+      "path": "frames/frame_000022.png",
+      "sha256": "22a1ff3c36b43703b0a31d6fa76da44e7cb038d12965aa6b087a4bbd20cc2063",
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "index": 23,
+      "path": "frames/frame_000023.png",
+      "sha256": "2a1d83ab0c474ed89565b8a3850f8c3cde4ff72ff0ae79ab8165130b03624345",
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "index": 24,
+      "path": "frames/frame_000024.png",
+      "sha256": "d079987c6edcf0eacb9b97fd2b578eaa8f435966a388f66665ffae00252bd77a",
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "index": 25,
+      "path": "frames/frame_000025.png",
+      "sha256": "02574ed6353d8e6b69c966af47be21c42176a3f37513d6c433c83cd0c943963f",
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "index": 26,
+      "path": "frames/frame_000026.png",
+      "sha256": "0e388156bc84c66761defad5c2f2e68d69996173ee117ccbbe9f6f05da492a89",
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "index": 27,
+      "path": "frames/frame_000027.png",
+      "sha256": "f9f69c5f4bb7e3b3b3dd280ddcc4c61900aefa7dc4dd3a277969508e25f31846",
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "index": 28,
+      "path": "frames/frame_000028.png",
+      "sha256": "b8ca4bd8473793387b7d642a851674073a299a3ff8dd476402be4dc422473811",
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "index": 29,
+      "path": "frames/frame_000029.png",
+      "sha256": "7cf9de64e80e5e2a410aaacdb7f3660815e93b306390696ba6152afd8090ce02",
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "index": 30,
+      "path": "frames/frame_000030.png",
+      "sha256": "eebb3fa4f0498002baef917f6295c70e72be1a26e7dd94b9175c87e4c640875e",
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "index": 31,
+      "path": "frames/frame_000031.png",
+      "sha256": "bd2eef8d907fe8e46cb0110596fbc29e79702426064b3fd825f11517faabcadf",
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "index": 32,
+      "path": "frames/frame_000032.png",
+      "sha256": "3d9f6b4272b5dc0c199a5c028357ab385bc5c8f6fd768a08e07cf230ed19c467",
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "index": 33,
+      "path": "frames/frame_000033.png",
+      "sha256": "581d3430b56987916f479379575b0dcf7d08e57e927d77d6edff8ceeda6bc8b3",
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "index": 34,
+      "path": "frames/frame_000034.png",
+      "sha256": "2a09343cde025265638cd6b46e4ac07a298bf573f004ff7f4c02b4ad8eb751b7",
+      "size": [
+        1024,
+        1024
+      ]
+    }
+  ]
+}
