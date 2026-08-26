@@ -1,20 +1,43 @@
 {
   "id": "lucy",
-  "version": 1,
+  "version": 2,
   "canonical_view": "front",
   "source_art": "art/front.png",
-  "canvas": {
-    "width": 552,
-    "height": 1536
+  "canvas": {"width": 552, "height": 1536},
+  "rest_pose": {"pelvis": {"x": 0.5, "y": 0.59}},
+  "motion": {"angle_smoothing": 0.2, "max_angle_jump_deg": 42, "pixel_snap": true},
+  "art_rest_joints": {
+    "head": [0.50, 0.125], "neck": [0.50, 0.225],
+    "shoulder_l": [0.675, 0.250], "elbow_l": [0.730, 0.375], "wrist_l": [0.755, 0.505], "hand_l": [0.760, 0.540],
+    "shoulder_r": [0.335, 0.250], "elbow_r": [0.255, 0.365], "wrist_r": [0.315, 0.295], "hand_r": [0.350, 0.325],
+    "hip_l": [0.615, 0.555], "knee_l": [0.580, 0.735], "ankle_l": [0.565, 0.930], "toe_l": [0.590, 0.965],
+    "hip_r": [0.405, 0.555], "knee_r": [0.420, 0.730], "ankle_r": [0.440, 0.930], "toe_r": [0.425, 0.965]
   },
-  "rest_pose": {
-    "pelvis": {"x": 0.5, "y": 0.59}
+  "deformation_bones": [
+    {"a": "shoulder_l", "b": "shoulder_r", "radius": 0.22},
+    {"a": "hip_l", "b": "hip_r", "radius": 0.22},
+    {"a": "shoulder_l", "b": "hip_l", "radius": 0.18}, {"a": "shoulder_r", "b": "hip_r", "radius": 0.18},
+    {"a": "neck", "b": "head", "radius": 0.18},
+    {"a": "shoulder_l", "b": "elbow_l", "radius": 0.105}, {"a": "elbow_l", "b": "wrist_l", "radius": 0.095}, {"a": "wrist_l", "b": "hand_l", "radius": 0.075},
+    {"a": "shoulder_r", "b": "elbow_r", "radius": 0.105}, {"a": "elbow_r", "b": "wrist_r", "radius": 0.095}, {"a": "wrist_r", "b": "hand_r", "radius": 0.075},
+    {"a": "hip_l", "b": "knee_l", "radius": 0.12}, {"a": "knee_l", "b": "ankle_l", "radius": 0.105}, {"a": "ankle_l", "b": "toe_l", "radius": 0.075},
+    {"a": "hip_r", "b": "knee_r", "radius": 0.12}, {"a": "knee_r", "b": "ankle_r", "radius": 0.105}, {"a": "ankle_r", "b": "toe_r", "radius": 0.075}
+  ],
+  "deformation": {
+    "reference_frame": 0,
+    "grid_cols": 11,
+    "grid_rows": 27,
+    "background_threshold": 8.0,
+    "motion_gain": {"x": 0.62, "y": 0.58},
+    "root_stabilization": {"horizontal": 1.0, "vertical": 0.35, "foot_lock": 0.62},
+    "max_joint_displacement_ratio": 0.17,
+    "secondary_controls": [
+      {"id": "hair", "anchor": [0.50, 0.16], "parent": "head", "radius": 0.15, "lag": 0.28, "stiffness": 0.52, "damping": 0.80, "max_px": 10},
+      {"id": "lanyard", "anchor": [0.50, 0.37], "parent": "neck", "radius": 0.08, "lag": 0.44, "stiffness": 0.46, "damping": 0.74, "max_px": 16},
+      {"id": "skirt", "anchor": [0.50, 0.54], "parent": "hip_l", "radius": 0.18, "lag": 0.22, "stiffness": 0.58, "damping": 0.82, "max_px": 10}
+    ]
   },
-  "motion": {
-    "angle_smoothing": 0.2,
-    "max_angle_jump_deg": 42,
-    "pixel_snap": true
-  },
+  "output": {"character_height_ratio": 0.92, "floor_margin_px": 6, "preview_background": "#2b2320"},
   "bones": {
     "pelvis": {"rest_angle_rad": 0, "limits_deg": [-30, 30]},
     "spine": {"rest_angle_rad": -1.57079632679, "limits_deg": [-25, 25]},
@@ -35,20 +58,20 @@
     "foot_r": {"rest_angle_rad": 0, "limits_deg": [-55, 55]}
   },
   "layers": [
-    {"id": "hair_back", "bone": "head", "z": 10},
-    {"id": "leg_r", "bone": "thigh_r", "z": 20},
-    {"id": "leg_l", "bone": "thigh_l", "z": 21},
-    {"id": "pelvis", "bone": "pelvis", "z": 30},
-    {"id": "torso", "bone": "chest", "z": 40},
-    {"id": "arm_r", "bone": "upper_arm_r", "z": 45},
-    {"id": "arm_l", "bone": "upper_arm_l", "z": 46},
-    {"id": "head", "bone": "head", "z": 50},
-    {"id": "hair_front", "bone": "head", "z": 60},
-    {"id": "accessories", "bone": "chest", "z": 70}
+    {"id": "hair_back", "bone": "head", "z": 10}, {"id": "leg_r", "bone": "thigh_r", "z": 20},
+    {"id": "leg_l", "bone": "thigh_l", "z": 21}, {"id": "pelvis", "bone": "pelvis", "z": 30},
+    {"id": "torso", "bone": "chest", "z": 40}, {"id": "arm_r", "bone": "upper_arm_r", "z": 45},
+    {"id": "arm_l", "bone": "upper_arm_l", "z": 46}, {"id": "head", "bone": "head", "z": 50},
+    {"id": "hair_front", "bone": "head", "z": 60}, {"id": "accessories", "bone": "chest", "z": 70}
   ],
   "secondary_motion": {
     "hair": {"stiffness": 0.72, "damping": 0.82, "max_deg": 12},
     "lanyard": {"stiffness": 0.48, "damping": 0.72, "max_deg": 20},
     "skirt": {"stiffness": 0.78, "damping": 0.86, "max_deg": 8}
-  }
+  },
+  "known_limitations": [
+    "The current canonical Lucy still is not a neutral rigging pose; the folder and bent arm are baked into the source art.",
+    "V1 uses a continuous piecewise-affine mesh, so it cannot yet change draw order when limbs cross in depth.",
+    "Production quality will require neutral canonical art and explicit layered rigs for front/3-quarter/back views."
+  ]
 }
