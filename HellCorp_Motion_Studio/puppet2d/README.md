@@ -2,200 +2,163 @@
 
 Deterministic 2D character animation pipeline for HellCorp.
 
-## Why this exists
+## Rule
 
-The current visual target is excellent as a still image, but diffusion-based frame generation is the wrong production primitive for animation. Even with fixed seeds, LoRA, dense keyframes and EbSynth, the character can change locally between frames: face, hair, clothing seams, highlights and silhouette details drift or smear.
+AI may author canonical art once. AI never generates animation frames.
 
-Puppet2D changes the rule:
-
-> AI may author canonical art once. AI never generates animation frames.
-
-Every animation frame is rendered deterministically from the same character artwork plus a motion clip.
-
-## Production architecture
+The production path is now:
 
 ```text
-CANONICAL CHARACTER ART
-(front / 3-4 / back)
-        |
-        v
-LAYER CUTTER
-(head, hair, torso, pelvis, arms, forearms, hands, thighs, calves, feet, accessories)
-        |
-        v
-CHARACTER RIG JSON
-(anchors, pivots, draw order, mesh masks)
-        |
-        +--------------------+
-        |                    |
-        v                    v
-MOTION SOURCE             EXPRESSIONS
-Mixamo FBX / VRM clip     authored face presets
-        |                    |
-        v                    |
-3D -> 2D POSE PROJECTOR      |
-        |                    |
-        +---------+----------+
-                  v
-          DETERMINISTIC RENDERER
-                  |
-                  v
-        PNG frames / atlas / Godot
+Mixamo FBX
+  -> clean Mixamo-to-VRM retarget
+  -> normalized 2D joint clip (HellCorpPuppetPoseV1)
+  -> fixed canonical character art
+  -> deterministic piecewise-affine mesh deformation
+  -> shared palette reduction
+  -> PNG sequence + atlas + Godot metadata + preview GIF
 ```
 
-## Non-negotiable rules
+No SDXL, img2img, LoRA or EbSynth runs inside the animation path.
 
-1. No SDXL/img2img inside an animation loop.
-2. No EbSynth in the production path.
-3. A character has one canonical texture set per camera direction.
-4. Motion changes transforms and deformation only, never identity.
-5. Pixel-art treatment is a final deterministic post-process.
-6. Exported animation must be reproducible bit-for-bit from the same inputs.
+## Implemented V1
 
-## Camera directions
+The first executable milestone is Lucy/front.
 
-The minimum useful set for the game is:
-
-- `front`
-- `front_3q_left`
-- `front_3q_right`
-- `back`
-
-For the first prototype only `front` is required.
-
-## Character package
+Files:
 
 ```text
-puppet2d/characters/lucy/
-  character.json
-  art/
-    front.png
-  layers/
-    front/
-      head.png
-      hair_back.png
-      hair_front.png
-      torso.png
-      pelvis.png
-      upper_arm_l.png
-      forearm_l.png
-      hand_l.png
-      upper_arm_r.png
-      forearm_r.png
-      hand_r.png
-      thigh_l.png
-      calf_l.png
-      foot_l.png
-      thigh_r.png
-      calf_r.png
-      foot_r.png
-      accessories.png
+puppet2d/pose_export.html
+puppet2d/pose_export_app.js
+puppet2d/render_mesh.py
+puppet2d/validate_manifest.py
+puppet2d/requirements.txt
+puppet2d/characters/lucy/character.json
+
+tools/export_puppet_pose_cli.mjs
+tools/setup_puppet2d.sh
+tools/run_puppet2d_first_test.sh
 ```
 
-The first implementation does not require automatic cutting. Layers can be authored manually from the canonical image. Automatic segmentation can be added later.
+`export_puppet_pose_cli.mjs` loads the existing clean Mixamo retarget implementation and samples the normalized VRM skeleton. It exports projected joints instead of rendered VRM frames.
 
-## Rig model
+`render_mesh.py` uses the same canonical Lucy texture for every frame. A piecewise-affine mesh deforms that image from the joint motion. Hair, lanyard and skirt receive small deterministic inertia controls. The final frames share one palette.
 
-The rig is a lightweight 2D skeleton. Each sprite layer has:
+`validate_manifest.py` verifies frame hashes, dimensions and output files and asserts that diffusion/EbSynth/source texture changes are disabled.
 
-- a parent bone;
-- a pivot in normalized image coordinates;
-- an offset from the parent;
-- a draw-order value;
-- optional angle and scale limits.
+## First setup
 
-Bones used by the first prototype:
+From `HellCorp_Motion_Studio`:
+
+```bash
+bash tools/setup_puppet2d.sh
+```
+
+This creates `puppet2d/.venv`, installs Pillow/OpenCV/numpy, installs the Node dependencies and Playwright Chromium.
+
+## First walk test
+
+```bash
+bash tools/run_puppet2d_first_test.sh walk
+```
+
+Default inputs:
 
 ```text
-root
-pelvis
-spine
-chest
-neck
-head
-upper_arm_l
-forearm_l
-hand_l
-upper_arm_r
-forearm_r
-hand_r
-thigh_l
-calf_l
-foot_l
-thigh_r
-calf_r
-foot_r
+test_assets/vrm/fem_vroid.vrm
+mixamo/animations/Female Walk.fbx
+../sdxl_lora_bench/out/characters_summer_memories/lucy_pixel_art.png
+puppet2d/characters/lucy/character.json
 ```
 
-## Motion input
+Default output:
 
-The preferred source remains Mixamo because the clean retarget branch already establishes a deterministic animation source.
-
-Puppet2D does not render the VRM. It uses the animation only as motion data.
-
-For every sampled frame we keep the projected 2D joint positions and a small amount of depth information used for draw ordering.
-
-Example pose frame:
-
-```json
-{
-  "time": 0.133333,
-  "joints": {
-    "pelvis": {"x": 0.51, "y": 0.61, "z": 0.02},
-    "head": {"x": 0.50, "y": 0.16, "z": -0.01},
-    "hand_l": {"x": 0.35, "y": 0.48, "z": 0.09}
-  }
-}
+```text
+puppet2d/output/lucy_walk_front/
+  pose.json
+  frames/
+  atlas.png
+  atlas.json
+  preview.gif
+  manifest.json
 ```
 
-## Animation strategy
+## Other immediate tests
 
-The renderer derives each bone angle from two projected joints. Limb sprite layers are then transformed around fixed pivots.
+```bash
+bash tools/run_puppet2d_first_test.sh greeting
+bash tools/run_puppet2d_first_test.sh phone
+```
 
-For torso/pelvis deformation, a simple affine transform is used first. Mesh warping can replace it later if the prototype proves the direction.
+## Override inputs/settings
 
-Hair, breasts, skirt hems, ties and accessories are secondary-motion layers. They are simulated deterministically using spring values stored in the character profile.
+The test runner accepts environment overrides:
 
-## Pixel-art output
+```bash
+SAMPLES=12 SIZE=512 FPS=12 bash tools/run_puppet2d_first_test.sh walk
+```
 
-Do not generate native pixel art per frame.
+Use another canonical image:
 
-Render the puppet at 2x-4x target resolution, then apply one deterministic reduction pass:
+```bash
+ART=/absolute/path/to/lucy.png bash tools/run_puppet2d_first_test.sh walk
+```
 
-1. nearest/bicubic controlled downsample;
-2. palette reduction;
-3. edge cleanup;
-4. optional outline pass;
-5. pixel snapping.
+Use another VRM:
 
-This preserves the exact same face, clothes and silhouette details across the full animation.
+```bash
+VRM=/absolute/path/to/character.vrm bash tools/run_puppet2d_first_test.sh walk
+```
 
-## Quality gates
+Choose another output folder:
 
-A clip fails if any of these happen:
+```bash
+OUT=/tmp/lucy_test bash tools/run_puppet2d_first_test.sh walk
+```
 
-- a required joint is missing;
-- a limb angle jumps by more than the configured maximum between adjacent frames;
-- character bounding-box scale changes unexpectedly;
-- feet drift above the configured floor while marked as planted;
-- exported frame dimensions differ;
-- any layer changes source texture during the clip.
+## Run stages manually
 
-## First milestone
+Export a 16-pose walk cycle:
 
-Lucy front-facing walk only.
+```bash
+node tools/export_puppet_pose_cli.mjs \
+  --vrm test_assets/vrm/fem_vroid.vrm \
+  --fbx "mixamo/animations/Female Walk.fbx" \
+  --out puppet2d/output/manual_walk/pose.json \
+  --view front \
+  --samples 16 \
+  --root-mode detrend
+```
 
-Input:
+Render it:
 
-- canonical Lucy image;
-- `Female Walk.fbx`;
-- front orthographic projection.
+```bash
+puppet2d/.venv/bin/python puppet2d/render_mesh.py \
+  --character puppet2d/characters/lucy/character.json \
+  --pose puppet2d/output/manual_walk/pose.json \
+  --art ../sdxl_lora_bench/out/characters_summer_memories/lucy_pixel_art.png \
+  --out puppet2d/output/manual_walk \
+  --size 384 \
+  --fps 16 \
+  --cols 4 \
+  --palette-colors 96
+```
 
-Output:
+Validate:
 
-- 12-16 frame seamless walk cycle;
-- deterministic PNG sequence;
-- atlas + JSON metadata for Godot;
-- no diffusion and no EbSynth.
+```bash
+puppet2d/.venv/bin/python puppet2d/validate_manifest.py \
+  puppet2d/output/manual_walk/manifest.json
+```
 
-The target is not perfect deformation. The target is proving that Lucy remains exactly Lucy for every frame while the walk reads naturally.
+Expected final messages:
+
+```text
+PUPPET_RENDER_PASS
+PUPPET_VALIDATION_PASS
+```
+
+## Current V1 limitation
+
+The existing Lucy still is visually excellent but is not a neutral rigging drawing: one arm is bent around the folder and several objects are baked into the image. The V1 mesh renderer is therefore useful to validate the core proposition — stable identity and deterministic motion — but it cannot turn that exact still into production-quality extreme poses.
+
+The production step after this prototype is to create canonical neutral front/3-quarter/back art and split it into explicit layered limbs. The pose exporter and output/validation architecture remain reusable for that version.
