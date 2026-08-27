@@ -1,0 +1,137 @@
+{
+  "N00_000_00_FaceMouth_00_FACE (Instance)": {
+    "meshName": "Face_(merged)(Clone)",
+    "triangles": 1696,
+    "drawn": 924
+  },
+  "N00_000_00_EyeIris_00_EYE (Instance)": {
+    "meshName": "Face_(merged)(Clone)_1",
+    "triangles": 370,
+    "drawn": 370
+  },
+  "N00_000_00_EyeHighlight_00_EYE (Instance)": {
+    "meshName": "Face_(merged)(Clone)_2",
+    "triangles": 160,
+    "drawn": 160
+  },
+  "N00_000_00_Face_00_SKIN (Instance)": {
+    "meshName": "Face_(merged)(Clone)_3",
+    "triangles": 4232,
+    "drawn": 3694
+  },
+  "N00_000_00_Face_00_SKIN (Instance) (Outline)": {
+    "meshName": "Face_(merged)(Clone)_3",
+    "triangles": 4232,
+    "drawn": 3694
+  },
+  "N00_000_00_EyeWhite_00_EYE (Instance)": {
+    "meshName": "Face_(merged)(Clone)_4",
+    "triangles": 528,
+    "drawn": 336
+  },
+  "N00_000_00_FaceBrow_00_FACE (Instance)": {
+    "meshName": "Face_(merged)(Clone)_5",
+    "triangles": 48,
+    "drawn": 48
+  },
+  "N00_000_00_FaceEyeline_00_FACE (Instance)": {
+    "meshName": "Face_(merged)(Clone)_6",
+    "triangles": 116,
+    "drawn": 116
+  },
+  "N00_000_00_Body_00_SKIN (Instance)": {
+    "meshName": "Body_(merged)",
+    "triangles": 10934,
+    "drawn": 5534
+  },
+  "N00_000_00_Body_00_SKIN (Instance) (Outline)": {
+    "meshName": "Body_(merged)",
+    "triangles": 10934,
+    "drawn": 5534
+  },
+  "N00_010_01_Onepiece_00_CLOTH_01 (Instance)": {
+    "meshName": "Body_(merged)_1",
+    "triangles": 2034,
+    "drawn": 1103
+  },
+  "N00_010_01_Onepiece_00_CLOTH_01 (Instance) (Outline)": {
+    "meshName": "Body_(merged)_1",
+    "triangles": 2034,
+    "drawn": 1103
+  },
+  "N00_010_01_Onepiece_00_CLOTH_02 (Instance)": {
+    "meshName": "Body_(merged)_2",
+    "triangles": 264,
+    "drawn": 201
+  },
+  "N00_010_01_Onepiece_00_CLOTH_02 (Instance) (Outline)": {
+    "meshName": "Body_(merged)_2",
+    "triangles": 264,
+    "drawn": 201
+  },
+  "N00_010_01_Onepiece_00_CLOTH_03 (Instance)": {
+    "meshName": "Body_(merged)_3",
+    "triangles": 732,
+    "drawn": 362
+  },
+  "N00_010_01_Onepiece_00_CLOTH_03 (Instance) (Outline)": {
+    "meshName": "Body_(merged)_3",
+    "triangles": 732,
+    "drawn": 362
+  },
+  "N00_000_00_HairBack_00_HAIR (Instance)": {
+    "meshName": "Body_(merged)_4",
+    "triangles": 1408,
+    "drawn": 494
+  },
+  "N00_008_01_Shoes_01_CLOTH_01 (Instance)": {
+    "meshName": "Body_(merged)_5",
+    "triangles": 628,
+    "drawn": 350
+  },
+  "N00_008_01_Shoes_01_CLOTH_01 (Instance) (Outline)": {
+    "meshName": "Body_(merged)_5",
+    "triangles": 628,
+    "drawn": 350
+  },
+  "N00_008_01_Shoes_01_CLOTH_02 (Instance)": {
+    "meshName": "Body_(merged)_6",
+    "triangles": 62,
+    "drawn": 62
+  },
+  "N00_008_01_Shoes_01_CLOTH_02 (Instance) (Outline)": {
+    "meshName": "Body_(merged)_6",
+    "triangles": 62,
+    "drawn": 62
+  },
+  "N00_010_01_Onepiece_00_CLOTH_04 (Instance)": {
+    "meshName": "Body_(merged)_7",
+    "triangles": 49,
+    "drawn": 25
+  },
+  "N00_010_01_Onepiece_00_CLOTH_04 (Instance) (Outline)": {
+    "meshName": "Body_(merged)_7",
+    "triangles": 49,
+    "drawn": 25
+  },
+  "N00_010_01_Onepiece_00_CLOTH_05 (Instance)": {
+    "meshName": "Body_(merged)_8",
+    "triangles": 90,
+    "drawn": 41
+  },
+  "N00_010_01_Onepiece_00_CLOTH_05 (Instance) (Outline)": {
+    "meshName": "Body_(merged)_8",
+    "triangles": 90,
+    "drawn": 41
+  },
+  "N00_000_Hair_00_HAIR (Instance)": {
+    "meshName": "Hair",
+    "triangles": 8076,
+    "drawn": 4088
+  },
+  "N00_000_Hair_00_HAIR (Instance) (Outline)": {
+    "meshName": "Hair",
+    "triangles": 8076,
+    "drawn": 4088
+  }
+}

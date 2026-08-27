@@ -1,0 +1,31 @@
+{
+  "_comment": "Action set for character sprite generation via Wan2.2 image-to-video. Each action is generated independently from the SAME reference image, so identity/outfit is inherited from the image, not re-described here — keep prompts focused on the motion.",
+  "shared_negative_prompt": "blurry, distorted, extra limbs, changing outfit, morphing face, inconsistent appearance, low quality, static image, camera shake, zoom, motion blur, text, watermark",
+  "actions": [
+    {
+      "name": "idle",
+      "prompt": "anime game sprite standing idle, full body view, subtle natural breathing motion, slight weight shift, steady fixed camera, plain background",
+      "num_frames": 25
+    },
+    {
+      "name": "walk",
+      "prompt": "anime game sprite of a woman walking forward steadily, full body view, steady fixed camera, smooth walking animation, arms swinging naturally, plain background",
+      "num_frames": 33
+    },
+    {
+      "name": "wave_hello",
+      "prompt": "anime game sprite of a woman smiling warmly and waving hello with one hand, full body view, steady fixed camera, natural friendly greeting gesture, plain background",
+      "num_frames": 25
+    },
+    {
+      "name": "talk_phone",
+      "prompt": "anime game sprite of a woman holding a phone to her ear and talking, full body view, steady fixed camera, natural casual conversation gestures, plain background",
+      "num_frames": 33
+    },
+    {
+      "name": "laugh",
+      "prompt": "anime game sprite of a woman laughing happily, head tilting back slightly, full body view, steady fixed camera, plain background",
+      "num_frames": 25
+    }
+  ]
+}

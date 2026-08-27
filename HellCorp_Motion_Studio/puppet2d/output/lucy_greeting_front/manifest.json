@@ -1,0 +1,142 @@
+{
+  "format": "HellCorpPuppetRenderV1",
+  "algorithm": "deterministic-piecewise-affine-puppet-mesh",
+  "character": "lucy",
+  "source_art": "/Users/christopher/HellCEO/hellcorp/sdxl_lora_bench/out/characters_summer_memories/lucy_pixel_art.png",
+  "source_art_sha256": "1e5425a951fe3c66c5d03d65cbbb8eca567f7ca1f1b6761508e2423bb4abaddd",
+  "character_config": "/Users/christopher/HellCEO/hellcorp/HellCorp_Motion_Studio/puppet2d/characters/lucy/character.json",
+  "character_config_sha256": "f9341769eed612e468647fa97678eebae723cd2346e972ef9d4d7af48a63fdfd",
+  "pose_clip": "/Users/christopher/HellCEO/hellcorp/HellCorp_Motion_Studio/puppet2d/output/lucy_greeting_front/pose.json",
+  "pose_clip_sha256": "103f8c2d7c5651ef41d8fd736d5c8694ff41b153d3d87544109eedd9b1eb4a49",
+  "pose_source_fbx": "Standing Greeting.fbx",
+  "pose_source_vrm": "fem_vroid.vrm",
+  "frame_count": 24,
+  "frame_size": [
+    384,
+    384
+  ],
+  "fps": 16.0,
+  "mesh": {
+    "cols": 11,
+    "rows": 27
+  },
+  "shared_palette_colors": 96,
+  "diffusion_used": false,
+  "ebsynth_used": false,
+  "source_texture_changes": false,
+  "frame_hashes": [
+    {
+      "index": 0,
+      "sha256": "e5add7c45f9244af66ead594fd53e8f1940c5d35ebcc15e1045897c93a15a638"
+    },
+    {
+      "index": 1,
+      "sha256": "86b303cff050ceb88f90b3c445734d7e1e79153bdd2449e2e3e36784e5dbaf6a"
+    },
+    {
+      "index": 2,
+      "sha256": "9c3ec7c203b2ea70e0ef0d3c5b834abce35d356c343feda57be0e1d972c3d659"
+    },
+    {
+      "index": 3,
+      "sha256": "c67edab8bda30958602a030b8e8487ea59d45a393cce1bd6e314dec809207282"
+    },
+    {
+      "index": 4,
+      "sha256": "26657e1be66eb18bbc03539963675a9e04418b2e3c7a3cef4711132a4c583c85"
+    },
+    {
+      "index": 5,
+      "sha256": "41a4f41f544f8d5e8726119040f030b5cb0726e259fd7db1a5cc06600d449608"
+    },
+    {
+      "index": 6,
+      "sha256": "da71cd5036c27644146b66a865df09d0b8b8c15091a0c4197986f3b9721c040e"
+    },
+    {
+      "index": 7,
+      "sha256": "67f389c4b20254f038ff885bc93fcdb41f637defb53bab374a86b45e89e07b06"
+    },
+    {
+      "index": 8,
+      "sha256": "86ecc81547196b97fa998da352d266a531ba056859970baef58142de55fb7246"
+    },
+    {
+      "index": 9,
+      "sha256": "063a1ca36e74de51eb2f46dcfa294f6055096eb1c6c07f9489850b78db3b50be"
+    },
+    {
+      "index": 10,
+      "sha256": "40a1b515f3ee35bd68852f06fe78f543562ec3cfd208f89adeec7e9ec45e281d"
+    },
+    {
+      "index": 11,
+      "sha256": "5f916e82e05fc0854192114ec4fc3cc8f6a82f98dca0a3897b5ad4a75f504d05"
+    },
+    {
+      "index": 12,
+      "sha256": "edeca1279d5f30a0db06a5416984eea2a041f652e1a6538841415f26c70cce86"
+    },
+    {
+      "index": 13,
+      "sha256": "209ff3271fc0ffaa63273539cc1f906d0feb04a97d130be37d15d09a5fd76253"
+    },
+    {
+      "index": 14,
+      "sha256": "4732b010c144d2d2ef04c5d448cc8122595d88c5f432125a558051fab3c83434"
+    },
+    {
+      "index": 15,
+      "sha256": "ee9b8f77b1c7e48e8423e62bb95dd2a24f91b54e8496b78723497546f51501de"
+    },
+    {
+      "index": 16,
+      "sha256": "7e54b37cfc4287f186028bdffa8d12813902cde08ea7996c8f67c1eb3e1214c3"
+    },
+    {
+      "index": 17,
+      "sha256": "80ced92b1f61f5f77c1a67b0a4ecfae97613ffc75da61896dfd7caa6504cad1b"
+    },
+    {
+      "index": 18,
+      "sha256": "3d64c5be173b64a3a1aa7c129d18e1d6820839019ef795c33e4c0caecdb95218"
+    },
+    {
+      "index": 19,
+      "sha256": "4526cecccfb462cd798d4d2a0add05d18c37aa97f3bb887c006339159c85d4cd"
+    },
+    {
+      "index": 20,
+      "sha256": "0a9018311c7df25ff2fdd6277a5ce858b21aee3d1800ac5acd34e2d16e04a42c"
+    },
+    {
+      "index": 21,
+      "sha256": "cdbb757747f25430b3c213058a8c0538beafccd2e1b4579de92535b117e0c683"
+    },
+    {
+      "index": 22,
+      "sha256": "1e8d0578fe834163e448aaaa00b816958848bd0e4ace55db39b7b06a0ed4be20"
+    },
+    {
+      "index": 23,
+      "sha256": "e7722317c0a17b7221cb273198a29c4ec1f7cf0ba5a4fc8374387499d891579e"
+    }
+  ],
+  "outputs": {
+    "frames": "frames/",
+    "atlas": "atlas.png",
+    "atlas_json": "atlas.json",
+    "preview_gif": "preview.gif"
+  },
+  "validation": {
+    "pose_status": "PASS",
+    "same_frame_dimensions": true,
+    "source_art_fixed": true,
+    "status": "PASS"
+  },
+  "known_limitations": [
+    "The current canonical Lucy still is not a neutral rigging pose; the folder and bent arm are baked into the source art.",
+    "V1 uses a continuous piecewise-affine mesh, so it cannot yet change draw order when limbs cross in depth.",
+    "Production quality will require neutral canonical art and explicit layered rigs for front/3-quarter/back views."
+  ]
+}

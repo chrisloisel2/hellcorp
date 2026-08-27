@@ -342,6 +342,239 @@ async function renderAnimation(options = {}) {
   return manifest;
 }
 
+function applyMToonStyle(style = {}) {
+  if (!currentVrm) return { error: 'No VRM loaded' };
+  const styled = [];
+  currentVrm.scene.traverse((obj) => {
+    const mats = Array.isArray(obj.material) ? obj.material : (obj.material ? [obj.material] : []);
+    for (const mat of mats) {
+      if (!mat.isMToonMaterial) continue;
+      const name = mat.name || '';
+
+      const pick = (table) => {
+        if (!table) return undefined;
+        const key = Object.keys(table).find((k) => k !== '*' && name.includes(k));
+        return key ? table[key] : table['*'];
+      };
+
+      if (style.outlineWidthMode) mat.outlineWidthMode = style.outlineWidthMode;
+      const width = pick(style.outlineWidthFactor);
+      if (width != null) mat.outlineWidthFactor = width;
+      if (style.outlineColorFactor) mat.outlineColorFactor = new THREE.Color(...style.outlineColorFactor);
+
+      const toony = pick(style.toony);
+      if (toony != null) mat.shadingToonyFactor = toony;
+
+      const shift = pick(style.shadingShift);
+      if (shift != null) mat.shadingShiftFactor = shift;
+
+      const recolor = pick(style.recolor);
+      if (recolor) mat.color = new THREE.Color(...recolor);
+
+      // Multiplicative tint (litFactor * map) cannot lighten a dark baked texture
+      // (e.g. near-black hair) into a light color, since the product stays <= the
+      // texture's own value. flatRecolor drops the diffuse map so litFactor is the
+      // whole story.
+      const flatRecolor = pick(style.flatRecolor);
+      if (flatRecolor) {
+        mat.map = null;
+        mat.shadeMultiplyTexture = null;
+        mat.color = new THREE.Color(...flatRecolor);
+      }
+
+      mat.needsUpdate = true;
+      styled.push({ name, color: mat.color?.getHexString?.() });
+    }
+  });
+  renderNow();
+  return { materialsStyled: styled };
+}
+
+window.__applyMToonStyle = applyMToonStyle;
+
+function loadTextureFromDataUrl(dataUrl) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => {
+      const tex = new THREE.Texture(img);
+      tex.flipY = false;
+      tex.colorSpace = THREE.SRGBColorSpace;
+      tex.needsUpdate = true;
+      resolve(tex);
+    };
+    img.onerror = () => reject(new Error('Failed to decode swapped texture image.'));
+    img.src = dataUrl;
+  });
+}
+
+async function swapMaterialTexture(nameSubstring, dataUrl) {
+  if (!currentVrm) return { error: 'No VRM loaded' };
+  const tex = await loadTextureFromDataUrl(dataUrl);
+  let count = 0;
+  currentVrm.scene.traverse((obj) => {
+    const mats = Array.isArray(obj.material) ? obj.material : (obj.material ? [obj.material] : []);
+    for (const mat of mats) {
+      if (!mat.isMToonMaterial || !(mat.name || '').includes(nameSubstring)) continue;
+      mat.map = tex;
+      // The shadow-side color also samples its own multiply texture (the original
+      // baked-dark diffuse); leaving it in place would tint shaded areas back
+      // toward the old hue, so it must be cleared along with the lit-side map.
+      mat.shadeMultiplyTexture = null;
+      mat.needsUpdate = true;
+      count++;
+    }
+  });
+  renderNow();
+  return { swapped: count };
+}
+
+window.__swapMaterialTexture = swapMaterialTexture;
+
+function solveAffine(p0, p1, p2, q0, q1, q2) {
+  // Solve M such that M * pi = qi, for i in {0,1,2}, as a 2D affine map
+  // (2x3 matrix [a c e; b d f]) — this is exactly the matrix CanvasRenderingContext2D.setTransform expects.
+  const [x0, y0] = p0, [x1, y1] = p1, [x2, y2] = p2;
+  const det = x0 * (y1 - y2) - y0 * (x1 - x2) + (x1 * y2 - x2 * y1);
+  if (Math.abs(det) < 1e-9) return null;
+  const invDet = 1 / det;
+
+  function solveRow(v0, v1, v2) {
+    // Cramer's rule for [k0,k1,k2] such that v_i = k0*x_i + k1*y_i + k2
+    const k0 = invDet * (v0 * (y1 - y2) - y0 * (v1 - v2) + (v1 * y2 - v2 * y1));
+    const k1 = invDet * (x0 * (v1 - v2) - v0 * (x1 - x2) + (x1 * v2 - x2 * v1));
+    const k2 = invDet * (x0 * (y1 * v2 - y2 * v1) - y0 * (x1 * v2 - x2 * v1) + (x1 * y2 - x2 * y1) * v0);
+    return [k0, k1, k2];
+  }
+
+  const [a, c, e] = solveRow(q0[0], q1[0], q2[0]);
+  const [b, d, f] = solveRow(q0[1], q1[1], q2[1]);
+  return [a, b, c, d, e, f];
+}
+
+function loadImage(dataUrl) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = () => reject(new Error('Failed to decode reference image.'));
+    img.src = dataUrl;
+  });
+}
+
+// Projects the current (posed, skinned) 3D geometry of every mesh into its own UV
+// layout and, per triangle, affine-warps the matching patch of a single fixed
+// reference image (aligned to a front orthographic view) onto it. Because the
+// front camera is orthographic, world->screen is itself affine, so composing it
+// with the reference-image alignment transform is exact per triangle — no
+// per-frame re-projection is involved. This runs once, at a single bake pose;
+// the resulting textures are ordinary UV textures from then on and deform with
+// the skeleton like any other painted texture.
+async function bakeProjectedTexture(options) {
+  if (!currentVrm) return { error: 'No VRM loaded' };
+  const {
+    refImageDataUrl, canvasSize, align, bakeSize = 1024, nameFilter = null,
+    cullSign = 1, // sign of (r1-r0)x(r2-r0) that means "facing away from camera" — flip if the bake comes out back-to-front
+  } = options;
+  const refImg = await loadImage(refImageDataUrl);
+
+  updateCamera(animationBounds, 'front');
+  currentVrm.scene.updateMatrixWorld(true);
+  camera.updateMatrixWorld(true);
+
+  const meshes = [];
+  currentVrm.scene.traverse((obj) => {
+    if (obj.isSkinnedMesh && obj.geometry?.attributes?.uv) {
+      if (!nameFilter || obj.name.includes(nameFilter) || (obj.material?.name || '').includes(nameFilter)) {
+        meshes.push(obj);
+      }
+    }
+  });
+
+  const results = {};
+  const tmp = new THREE.Vector3();
+
+  for (const mesh of meshes) {
+    const geom = mesh.geometry;
+    const uvAttr = geom.attributes.uv;
+    const posAttr = geom.attributes.position;
+    const index = geom.index;
+    const vertexCount = posAttr.count;
+    const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+    const groups = geom.groups && geom.groups.length ? geom.groups : [{ start: 0, count: (index ? index.count : vertexCount), materialIndex: 0 }];
+
+    const refPixels = new Array(vertexCount);
+    for (let i = 0; i < vertexCount; i++) {
+      mesh.getVertexPosition(i, tmp);
+      tmp.applyMatrix4(mesh.matrixWorld);
+      const ndc = tmp.clone().project(camera);
+      const px = (ndc.x * 0.5 + 0.5) * canvasSize;
+      const py = (1 - (ndc.y * 0.5 + 0.5)) * canvasSize;
+      refPixels[i] = [(px - align.pasteX) / align.scale, (py - align.pasteY) / align.scale];
+    }
+
+    const getIdx = index ? (k) => index.getX(k) : (k) => k;
+    const margin = 40;
+
+    for (const group of groups) {
+      const mat = materials[group.materialIndex] || materials[0];
+      if (!mat?.isMToonMaterial) continue;
+      const size = mat.map?.image ? Math.max(mat.map.image.width, mat.map.image.height) : bakeSize;
+
+      const bakeCanvas = document.createElement('canvas');
+      bakeCanvas.width = size;
+      bakeCanvas.height = size;
+      const ctx = bakeCanvas.getContext('2d');
+      // Fallback base layer: the original texture, so triangles the projector
+      // never sees (back-facing, or outside the reference photo's frame) keep
+      // their original look instead of turning transparent/black.
+      if (mat.map?.image) ctx.drawImage(mat.map.image, 0, 0, size, size);
+      let drawn = 0;
+      const triStart = Math.floor(group.start / 3);
+      const triEnd = Math.floor((group.start + group.count) / 3);
+
+      for (let t = triStart; t < triEnd; t++) {
+        const i0 = getIdx(t * 3), i1 = getIdx(t * 3 + 1), i2 = getIdx(t * 3 + 2);
+        const u0 = uvAttr.getX(i0) * size, v0 = (1 - uvAttr.getY(i0)) * size;
+        const u1 = uvAttr.getX(i1) * size, v1 = (1 - uvAttr.getY(i1)) * size;
+        const u2 = uvAttr.getX(i2) * size, v2 = (1 - uvAttr.getY(i2)) * size;
+
+        const r0 = refPixels[i0], r1 = refPixels[i1], r2 = refPixels[i2];
+        const within = (p) => p[0] > -margin && p[0] < refImg.width + margin && p[1] > -margin && p[1] < refImg.height + margin;
+        if (!within(r0) || !within(r1) || !within(r2)) continue;
+
+        const signedArea = (r1[0] - r0[0]) * (r2[1] - r0[1]) - (r2[0] - r0[0]) * (r1[1] - r0[1]);
+        if (Math.sign(signedArea) === Math.sign(cullSign)) continue; // back-facing relative to the projector
+
+        const affine = solveAffine(r0, r1, r2, [u0, v0], [u1, v1], [u2, v2]);
+        if (!affine) continue;
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(u0, v0);
+        ctx.lineTo(u1, v1);
+        ctx.lineTo(u2, v2);
+        ctx.closePath();
+        ctx.clip();
+        ctx.setTransform(...affine);
+        ctx.drawImage(refImg, 0, 0);
+        ctx.restore();
+        drawn++;
+      }
+
+      results[mat.name] = {
+        meshName: mesh.name,
+        dataUrl: bakeCanvas.toDataURL('image/png'),
+        triangles: triEnd - triStart,
+        drawn,
+      };
+    }
+  }
+
+  renderNow();
+  return results;
+}
+
+window.__bakeProjectedTexture = bakeProjectedTexture;
+
 window.__mixamoClean = {
   loadVrmFile,
   loadFbxFile,

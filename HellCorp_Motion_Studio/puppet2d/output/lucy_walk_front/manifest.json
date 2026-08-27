@@ -1,0 +1,110 @@
+{
+  "format": "HellCorpPuppetRenderV1",
+  "algorithm": "deterministic-piecewise-affine-puppet-mesh",
+  "character": "lucy",
+  "source_art": "/Users/christopher/HellCEO/hellcorp/sdxl_lora_bench/out/characters_summer_memories/lucy_pixel_art.png",
+  "source_art_sha256": "1e5425a951fe3c66c5d03d65cbbb8eca567f7ca1f1b6761508e2423bb4abaddd",
+  "character_config": "/Users/christopher/HellCEO/hellcorp/HellCorp_Motion_Studio/puppet2d/characters/lucy/character.json",
+  "character_config_sha256": "f9341769eed612e468647fa97678eebae723cd2346e972ef9d4d7af48a63fdfd",
+  "pose_clip": "/Users/christopher/HellCEO/hellcorp/HellCorp_Motion_Studio/puppet2d/output/lucy_walk_front/pose.json",
+  "pose_clip_sha256": "145f302d5dbcff771beee6f8947f938f85b45b71778b555fc5793e8ac3b76fc8",
+  "pose_source_fbx": "Female Walk.fbx",
+  "pose_source_vrm": "fem_vroid.vrm",
+  "frame_count": 16,
+  "frame_size": [
+    384,
+    384
+  ],
+  "fps": 16.0,
+  "mesh": {
+    "cols": 11,
+    "rows": 27
+  },
+  "shared_palette_colors": 96,
+  "diffusion_used": false,
+  "ebsynth_used": false,
+  "source_texture_changes": false,
+  "frame_hashes": [
+    {
+      "index": 0,
+      "sha256": "e5add7c45f9244af66ead594fd53e8f1940c5d35ebcc15e1045897c93a15a638"
+    },
+    {
+      "index": 1,
+      "sha256": "ba01103fe16f7155c08ee354e713aedca9b08280b3fd6a94bbd0531d93ac299c"
+    },
+    {
+      "index": 2,
+      "sha256": "46f650173e6faf11ccdfb9fc355b916447f604def5433bc28014bc17b6679061"
+    },
+    {
+      "index": 3,
+      "sha256": "c4c6f235d9987a1cdbf091f847e43b7955a233868f2778e15aa0ce6aba8d7e67"
+    },
+    {
+      "index": 4,
+      "sha256": "e13515d1b56008bacbd6d4ef4d23688cff1dc0bef8d1e739af302ea2dd40f129"
+    },
+    {
+      "index": 5,
+      "sha256": "1427eed7d5e42506929ed7f380c9331484e012c970d06a85f2f1e9fa9a8f2f37"
+    },
+    {
+      "index": 6,
+      "sha256": "2c8512b1e766583d21aefe44c3b51ae6086f3a4c1d5763cb301c7b8e21f17b3a"
+    },
+    {
+      "index": 7,
+      "sha256": "7bce006d4af3315120738769b70d30066eefeca1872f668f6d6b9124b908048f"
+    },
+    {
+      "index": 8,
+      "sha256": "ec0efdf17b2d60be35e79590f5bb34fe99d56d8142fd8dfdbe189aa911baea14"
+    },
+    {
+      "index": 9,
+      "sha256": "2a834e723e844bd38be6e732bb865de486a475845d4a528bd1a56e5c6fa5aa9e"
+    },
+    {
+      "index": 10,
+      "sha256": "b2a30e126fde9794f7dbf61e31f217b72af98abcd8b8a74a3f8c436c2720982f"
+    },
+    {
+      "index": 11,
+      "sha256": "f66ad4d474d630f9625bcf9fe6142f1533aebe45be9f78c6ba32613777861384"
+    },
+    {
+      "index": 12,
+      "sha256": "5eeb08d42491a7273b4da3ed6a991f918636bd67fe0db1dafa68599e46e62ca5"
+    },
+    {
+      "index": 13,
+      "sha256": "1da93da9c5e19b1eb28289590dd2088325d4258a14dbd8fffb441ef7d6e3fe38"
+    },
+    {
+      "index": 14,
+      "sha256": "ed84012ad7ceb8a1c1e147250fd732b4fff8b374904c538238b28abe6e6b2d9f"
+    },
+    {
+      "index": 15,
+      "sha256": "c22bd7314ea102bad04b848242a28ce69eeb659e71b043c8fd7e860aae158533"
+    }
+  ],
+  "outputs": {
+    "frames": "frames/",
+    "atlas": "atlas.png",
+    "atlas_json": "atlas.json",
+    "preview_gif": "preview.gif"
+  },
+  "validation": {
+    "pose_status": "PASS",
+    "same_frame_dimensions": true,
+    "source_art_fixed": true,
+    "status": "PASS"
+  },
+  "known_limitations": [
+    "The current canonical Lucy still is not a neutral rigging pose; the folder and bent arm are baked into the source art.",
+    "V1 uses a continuous piecewise-affine mesh, so it cannot yet change draw order when limbs cross in depth.",
+    "Production quality will require neutral canonical art and explicit layered rigs for front/3-quarter/back views."
+  ]
+}
