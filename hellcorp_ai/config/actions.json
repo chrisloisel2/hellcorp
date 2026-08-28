@@ -1,5 +1,5 @@
 {
-  "_comment": "Action set for character sprite generation via Wan2.2 image-to-video. Each action is generated independently from the SAME reference image, so identity/outfit is inherited from the image, not re-described here — keep prompts focused on the motion.",
+  "_comment": "Action set for character sprite generation via Wan2.2 image-to-video. Each action is generated independently from the SAME reference image, so identity/outfit is inherited from the image, not re-described here — keep prompts focused on the motion. Running the pipeline with no --actions flag generates every entry below.",
   "shared_negative_prompt": "blurry, distorted, extra limbs, changing outfit, morphing face, inconsistent appearance, low quality, static image, camera shake, zoom, motion blur, text, watermark",
   "actions": [
     {
@@ -13,9 +13,64 @@
       "num_frames": 33
     },
     {
+      "name": "run",
+      "prompt": "anime game sprite of a woman running forward energetically, full body view, steady fixed camera, fast paced running animation, arms pumping, plain background",
+      "num_frames": 25
+    },
+    {
       "name": "wave_hello",
       "prompt": "anime game sprite of a woman smiling warmly and waving hello with one hand, full body view, steady fixed camera, natural friendly greeting gesture, plain background",
       "num_frames": 25
+    },
+    {
+      "name": "bow_greeting",
+      "prompt": "anime game sprite of a woman giving a polite formal bow of greeting, full body view, steady fixed camera, professional office greeting, plain background",
+      "num_frames": 25
+    },
+    {
+      "name": "nod_yes",
+      "prompt": "anime game sprite of a woman nodding her head yes in agreement, full body view, steady fixed camera, plain background",
+      "num_frames": 17
+    },
+    {
+      "name": "shake_head_no",
+      "prompt": "anime game sprite of a woman shaking her head no in disagreement, full body view, steady fixed camera, plain background",
+      "num_frames": 17
+    },
+    {
+      "name": "shrug",
+      "prompt": "anime game sprite of a woman shrugging her shoulders with palms up, unsure gesture, full body view, steady fixed camera, plain background",
+      "num_frames": 17
+    },
+    {
+      "name": "laugh",
+      "prompt": "anime game sprite of a woman laughing happily, head tilting back slightly, full body view, steady fixed camera, plain background",
+      "num_frames": 25
+    },
+    {
+      "name": "smile_happy",
+      "prompt": "anime game sprite of a woman smiling warmly and happily, standing relaxed, full body view, steady fixed camera, plain background",
+      "num_frames": 17
+    },
+    {
+      "name": "cry_sad",
+      "prompt": "anime game sprite of a woman looking sad, sniffling, wiping a tear, full body view, steady fixed camera, plain background",
+      "num_frames": 25
+    },
+    {
+      "name": "angry_annoyed",
+      "prompt": "anime game sprite of a woman looking angry and annoyed, crossing her arms, frowning, full body view, steady fixed camera, plain background",
+      "num_frames": 25
+    },
+    {
+      "name": "surprised_shocked",
+      "prompt": "anime game sprite of a woman looking surprised and shocked, hands raised near her face, full body view, steady fixed camera, plain background",
+      "num_frames": 17
+    },
+    {
+      "name": "wink_flirt",
+      "prompt": "anime game sprite of a woman winking playfully with a flirty smile, full body view, steady fixed camera, plain background",
+      "num_frames": 17
     },
     {
       "name": "talk_phone",
@@ -23,8 +78,48 @@
       "num_frames": 33
     },
     {
-      "name": "laugh",
-      "prompt": "anime game sprite of a woman laughing happily, head tilting back slightly, full body view, steady fixed camera, plain background",
+      "name": "typing_keyboard",
+      "prompt": "anime game sprite of a woman typing on a keyboard, focused expression, full body view, steady fixed camera, plain background",
+      "num_frames": 25
+    },
+    {
+      "name": "writing_signing",
+      "prompt": "anime game sprite of a woman writing or signing a document with a pen, full body view, steady fixed camera, plain background",
+      "num_frames": 25
+    },
+    {
+      "name": "drinking_coffee",
+      "prompt": "anime game sprite of a woman holding a coffee cup and taking a sip, full body view, steady fixed camera, plain background",
+      "num_frames": 25
+    },
+    {
+      "name": "thinking",
+      "prompt": "anime game sprite of a woman thinking, hand on her chin, looking thoughtful, full body view, steady fixed camera, plain background",
+      "num_frames": 17
+    },
+    {
+      "name": "facepalm",
+      "prompt": "anime game sprite of a woman doing a facepalm, covering her face with one hand in exasperation, full body view, steady fixed camera, plain background",
+      "num_frames": 17
+    },
+    {
+      "name": "pointing",
+      "prompt": "anime game sprite of a woman pointing forward with one hand, directing attention, full body view, steady fixed camera, plain background",
+      "num_frames": 17
+    },
+    {
+      "name": "thumbs_up",
+      "prompt": "anime game sprite of a woman giving a thumbs up with a confident smile, full body view, steady fixed camera, plain background",
+      "num_frames": 17
+    },
+    {
+      "name": "clapping",
+      "prompt": "anime game sprite of a woman clapping her hands enthusiastically, full body view, steady fixed camera, plain background",
+      "num_frames": 17
+    },
+    {
+      "name": "victory_cheer",
+      "prompt": "anime game sprite of a woman cheering with both arms raised in victory, excited celebration, full body view, steady fixed camera, plain background",
       "num_frames": 25
     }
   ]
